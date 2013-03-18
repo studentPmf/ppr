@@ -13,7 +13,7 @@ __global__ void VecAdd(double *A, double *B, double *C, int N)
 int main(int argc, char *argv[])
 {
 	int N(100);
-	int amp;
+	int *amp;
 	size_t size = N * sizeof(double);
 
 	double *h_A = (double*)malloc(size);
