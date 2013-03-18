@@ -1,5 +1,5 @@
 #include<iostream>
-#include<cuda.h>
+#include<cuda_runtime.h>
 
 __global__ void VecAdd(double *A, double *B, double *C, int N)
 {
@@ -13,6 +13,7 @@ __global__ void VecAdd(double *A, double *B, double *C, int N)
 int main(int argc, char *argv[])
 {
 	int N(100);
+	//int amp;
 	size_t size = N * sizeof(double);
 
 	double *h_A = (double*)malloc(size);
