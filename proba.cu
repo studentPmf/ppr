@@ -13,7 +13,7 @@ __global__ void VecAdd(double *A, double *B, double *C, int N)
 int main(int argc, char *argv[])
 {
 	int N(100);
-	//int amp;
+	int amp;
 	size_t size = N * sizeof(double);
 
 	double *h_A = (double*)malloc(size);
@@ -23,9 +23,9 @@ int main(int argc, char *argv[])
 		h_A[i] = h_B[i] = (double)( (i + 2)/(i + 1) );
 	
 	double *d_A, *d_B, *d_C;
-	cudaMalloc(&amp; d_A, size);
-	cudaMalloc(&amp; d_B, size);
-	cudaMalloc(&amp; d_C, size);
+	cudaMalloc(&amp, d_A, size);
+	cudaMalloc(&amp, d_B, size);
+	cudaMalloc(&amp, d_C, size);
 
 	cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
   cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
