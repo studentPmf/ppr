@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	double *h_B = (double*)malloc(size);
 
 	for(int i(0); i < 100; i++)
-		A[i] = B[i] = (double)( (i + 2)/(i + 1) );
+		h_A[i] = h_B[i] = (double)( (i + 2)/(i + 1) );
 	
 	double *d_A, *d_B, *d_C;
 	cudaMalloc(&amp; d_A, size);
