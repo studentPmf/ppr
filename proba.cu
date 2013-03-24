@@ -6,7 +6,7 @@ __global__ void VecAdd(double *A, double *B, double *C, int N)
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 
 	if( N > i )
-		C[i] = A[i] + B[i];
+		C[i] = 0.01*A[i] + B[i];
 }
 
 
