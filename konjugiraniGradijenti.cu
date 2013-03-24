@@ -16,16 +16,19 @@ void VecAdd(double* A, double* B, double* C, int N)
 		C[i] = A[i] + B[i];
 }
 
+int KonjGrad(double *A, double *b, double* x_0, double epsilon, double *x_end, int dim)
+{
+	double a = cblas_ddot(dim, *b, 1, *x_0, 1);
+	cout<<a<<endl;
+	return 1;
+}
+
+
 
 void procitaj(double *data, int dim, ifstream& file)
 {
 	for(int i(0); i < dim; i++)
 	{
-		/*if(file.eof)
-		{
-			cerr<<"Greska kod citanja podataka, podatci nisu potpuni"<<endl;
-			exit ( -1 );
-		}*/
 		double dat;
 		file>>dat;
 		data[i] = dat;
@@ -56,15 +59,20 @@ int main(int argc, char** argv)
 	double *A = (double*)malloc(dim*dim*sizeof(double));
 	double *b = (double*)malloc(dim*sizeof(double));
 	double *x_0 =(double*)malloc(dim*sizeof(double));
-
+	double *x_end = (double*)malloc(dim*sizeof(double));
+	double epsilon;
 	procitaj(A, dim*dim, file);
 	procitaj(b, dim, file);
 	procitaj(x_0, dim, file);
-  
-	cout<<dim;
 
-	for(int i(0); i < dim*dim; i++)
-		cout<<A[i]<<" "<<endl;
+	cout<<"unesite zadanu tocnost za su sustav :";
+	cin>>epsilon;
+
+	if(!KonjGrad(A, b, x_0, epsilon, x_end, dim))
+	{
+		cout<<"Doslo je do greske kod racuna "<<endl;
+		exit ( -1 );
+	}
 
 	return 0;
 }
