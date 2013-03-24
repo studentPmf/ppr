@@ -31,14 +31,15 @@ int main(int argc, char *argv[])
   cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
 	
 	int threadsPerBlock = 20;
-  int blocksPerGrid = (N + threadsPerBlock – 1) / threadsPerBlock;
+  int blocksPerGrid = (int) (N + threadsPerBlock – 1) / threadsPerBlock;
    
 	VecAdd<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, N);
 
 	cudaFree(d_A);
   cudaFree(d_B);
   cudaFree(d_C);
-
+		
+	
 	free(h_A);
 	free(h_B);
 
