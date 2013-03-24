@@ -28,7 +28,7 @@ void procitaj(double *data, int dim, ifstream file)
 		}
 		double dat;
 		file>>dat;
-		data[i] = data;
+		data[i] = dat;
 	}
 }
 
@@ -53,9 +53,9 @@ int main(int argc, char** argv)
 	}
 	
 	file>>dim;
-	*A = new int[dim*dim];
-	*b = new int[dim];
-	*x_0 = new int[dim];
+	*A = new double[dim*dim];
+	*b = new double[dim];
+	*x_0 = new double[dim];
 
 	procitaj(A, dim*dim, file);
 	procitaj(b, dim, file);
