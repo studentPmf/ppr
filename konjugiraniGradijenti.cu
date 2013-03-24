@@ -4,6 +4,8 @@
 #include<cblas.h>
 #include<fstream>
 
+using namespace std;
+
 __global__ 
 void VecAdd(double* A, double* B, double* C, int N)
 {
@@ -20,8 +22,8 @@ int main(int argc, char** argv)
 	std::cout<<"Unesite ime tekstualne datoteke u kojoj se nalazi zadani sustav: "
 	std::cin>>datIme;
 	std::cout<<std::endl;
-	sta::cout<<"Unijeli ste ime "<<datIme;
-	std::cout<<"i rezltat ce biti spremnjen u datoteku rez.txt"<<std::endl
+	std::cout<<"Unijeli ste ime "<<datIme;
+	std::cout<<"i rezltat ce biti spremnjen u datoteku rez.txt"<<std::endl;
 
 	fstream file(datIme.c_str());
 
