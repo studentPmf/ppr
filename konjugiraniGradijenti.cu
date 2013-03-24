@@ -1,4 +1,4 @@
-#include<iostram>
+#include<iostream>
 #include<cuda_runtime.h>
 #include<cblas.h>
 
