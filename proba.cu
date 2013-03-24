@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
 	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 
 	for(int i = 0; i < N; i++)
-		cout<<h_C[i]<<" ";
-	cout<<endl;
+		std::cout<<h_C[i]<<" ";
+	std::cout<<endl;
 
 	cudaFree(d_A);
   cudaFree(d_B);
