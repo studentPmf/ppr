@@ -19,7 +19,7 @@ void VecAdd(double* A, double* B, double* C, int N)
 int main(int argc, char** argv)
 {
 	std::string datIme;
-	std::cout<<"Unesite ime tekstualne datoteke u kojoj se nalazi zadani sustav: "
+	std::cout<<"Unesite ime tekstualne datoteke u kojoj se nalazi zadani sustav: ";
 	std::cin>>datIme;
 	std::cout<<std::endl;
 	std::cout<<"Unijeli ste ime "<<datIme;
