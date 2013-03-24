@@ -21,11 +21,11 @@ void procitaj(double *data, int dim, ifstream& file)
 {
 	for(int i(0); i < dim; i++)
 	{
-		if(file->eof)
+		/*if(file.eof)
 		{
 			cerr<<"Greska kod citanja podataka, podatci nisu potpuni"<<endl;
 			exit ( -1 );
-		}
+		}*/
 		double dat;
 		file>>dat;
 		data[i] = dat;
