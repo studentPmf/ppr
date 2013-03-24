@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	double *b = (double*)malloc(dim*sizeof(double));
 	double *x_0 =(double*)malloc(dim*sizeof(double));
 
-	procitaj(A, dim*dim, &file);
+	procitaj(A, dim*dim, file);
 	procitaj(b, dim, file);
 	procitaj(x_0, dim, file);
 
