@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
 	for(int i = 0; i < N; i++)
 		std::cout<<h_C[i]<<" ";
-	std::cout<<endl;
+	std::cout<<std::endl;
 
 	cudaFree(d_A);
   cudaFree(d_B);
