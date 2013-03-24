@@ -2,8 +2,7 @@
 #include<cstdlib>
 #include<string>
 #include<cuda_runtime.h>
-extern C{
-#include<cblas.h>}
+#include<cblas.h>
 #include<fstream>
 
 using namespace std;
