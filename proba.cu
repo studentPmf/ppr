@@ -35,6 +35,13 @@ int main(int argc, char *argv[])
    
 	VecAdd<<<blocksPerGrid, threadsPerBlock>>>(d_A, d_B, d_C, N);
 
+	double *h_C = (double*)malloc(size);
+	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
+
+	for(int i = 0; i < N; i++)
+		cout<<h_C[i]<<" ";
+	cout<<endl;
+
 	cudaFree(d_A);
   cudaFree(d_B);
   cudaFree(d_C);
