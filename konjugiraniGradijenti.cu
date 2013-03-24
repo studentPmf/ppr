@@ -60,6 +60,8 @@ int main(int argc, char** argv)
 	procitaj(A, dim*dim, file);
 	procitaj(b, dim, file);
 	procitaj(x_0, dim, file);
+  
+	cout<<dim;
 
 	for(int i(0); i < dim*dim; i++)
 		cout<<A[i]<<" "<<endl;
