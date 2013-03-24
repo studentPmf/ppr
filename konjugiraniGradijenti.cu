@@ -17,17 +17,17 @@ void VecAdd(double* A, double* B, double* C, int N)
 }
 
 
-void procitaj(double *data, int dim, ifstream file)
+void procitaj(double *data, int dim, ifstream *file)
 {
 	for(int i(0); i < dim; i++)
 	{
-		if(file.eof)
+		if(*file.eof)
 		{
 			cerr<<"Greska kod citanja podataka, podatci nisu potpuni"<<endl;
 			exit ( -1 );
 		}
 		double dat;
-		file>>dat;
+		*file>>dat;
 		data[i] = dat;
 	}
 }
@@ -36,7 +36,7 @@ void procitaj(double *data, int dim, ifstream file)
 int main(int argc, char** argv)
 {
 	int dim;
-	double * A, *b, *x_0;
+	//double *A, *b, *x_0;
 	std::string datIme;
 	std::cout<<"Unesite ime tekstualne datoteke u kojoj se nalazi zadani sustav: ";
 	std::cin>>datIme;
@@ -53,11 +53,11 @@ int main(int argc, char** argv)
 	}
 	
 	file>>dim;
-	*A = (double*)malloc(dim*dim*sizeof(double));
-	*b = (double*)malloc(dim*sizeof(double));
-	*x_0 =(double*)malloc(dim*sizeof(double));
+	double *A = (double*)malloc(dim*dim*sizeof(double));
+	double *b = (double*)malloc(dim*sizeof(double));
+	double *x_0 =(double*)malloc(dim*sizeof(double));
 
-	procitaj(A, dim*dim, file);
+	procitaj(A, dim*dim, &file);
 	procitaj(b, dim, file);
 	procitaj(x_0, dim, file);
 
