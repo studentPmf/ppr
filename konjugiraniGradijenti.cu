@@ -2,12 +2,13 @@
 #include<cstdlib>
 #include<string>
 #include<cuda_runtime.h>
-#include<cblas.h>
+extern C{
+#include<cblas.h>}
 #include<fstream>
 
 using namespace std;
 
-/*__global__ 
+__global__ 
 void VecAdd(double* A, double* B, double* C, int N)
 {
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
@@ -15,7 +16,7 @@ void VecAdd(double* A, double* B, double* C, int N)
 	if( i < N )
 		C[i] = A[i] + B[i];
 }
-*/
+
 int KonjGrad(double *A, double *b, double* x_0, double epsilon, double *x_end, int dim)
 {
 	double a = cblas_ddot(dim,b,1,x_0,1);
