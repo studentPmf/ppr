@@ -20,6 +20,9 @@ int KonjGrad(double *A, double *b, double* x_0, double epsilon, double *x_end, i
 {
 	double a = cblas_ddot(dim,b,1,x_0,1);
 	cout<<a<<endl;
+	int k = 0;
+	double *r_0 = (double*)malloc(dim*sizeof(double));
+	
 	return 1;
 }
 
