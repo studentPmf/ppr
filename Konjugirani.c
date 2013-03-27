@@ -5,9 +5,11 @@
 
 int konjugiraniS(double * A, double* b, double* x_0, double* x_end, int dim)
 {
+	int s = 1;
+	double i = 1, j = -1;
 	//double * r = (double*)malloc(dim*sizeof(double));
-	dgemm('No transpose',dim,dim,1,A,dim,x_0,1,-1,b,1);	
-
+	dgemv("No transpose",&dim,&dim,&i,A,&dim,x_0,&s,&j,b,&s);	
+	return 1;
 }
 
 int main()
