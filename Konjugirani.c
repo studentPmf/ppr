@@ -18,16 +18,16 @@ int konjugiraniS(double* A, double* b, double* x_0, double* x_end, int dim, int 
 	while(ddot(&dim, b, &inc,b, &inc) > epsilon )
 	{
 		beta = 0;
-		dgemv("No transpose", &dim, &dim, &alpha, A, &dim, d, &inc, &beta, pom, &inc )
+		dgemv("No transpose", &dim, &dim, &alpha, A, &dim, d, &inc, &beta, pom, &inc );
 		tau = ddot(&dim, b, &inc, b, &inc)/ddot(&dim, d, &inc, pom, &inc);
-		daxpy(&dim, tau, d, &inc, x_0, &inc);
+		daxpy(&dim, &tau, d, &inc, x_0, &inc);
 		dcopy(&dim, b, &inc, b_pom, &inc);
 		dgemv("No transpose", &dim, &dim, &tau, A, &dim, d, &inc, &alpha, b, &inc);
-		double beta_k = ddot(&dim, b, &inc, b, &inc)/dodt(&dim, b_pom, &inc, b_pom, &inc);
+		double beta_k = ddot(&dim, b, &inc, b, &inc)/ddot(&dim, b_pom, &inc, b_pom, &inc);
 		dcopy(&dim, b, &inc, b_pom, &inc);
 		beta = -1;
 		dscal(&dim, &beta, b_pom, &inc);
-		daxpy(&dim, beta_k, d, &inc, b_pom, &inc);
+		daxpy(&dim, &beta_k, d, &inc, b_pom, &inc);
 		dcopy(&dim, b_pom, &inc, d, &inc);
 	}	
 	return 1;
