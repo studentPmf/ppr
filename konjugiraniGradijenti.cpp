@@ -3,7 +3,6 @@
 #include<string>
 #include<fstream>
 #include "ks.h"
-#include "kp.h"
 using namespace std;
 
 
