@@ -8,7 +8,7 @@ using namespace std;
 
 int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 {
-	cublasHandle_h h;
+	cublasHandle_t h;
 	cublasCreate(&h);
 	cublasDestroy(h);
 	return 1;
@@ -58,12 +58,12 @@ int main(int argc, char** argv)
 	cout<<"unesite zadanu tocnost za su sustav :";
 	cin>>epsilon;
 
-	if(!konjugiraniS(A, b, x_0, dim, epsilon))
+	if(!konjugiraniP(A, b, x_0, dim, epsilon))
 	{
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
 	}
-
+	/*
 	ofstream rez("rez.txt");
 	if(!file.is_open())
 	{
@@ -72,6 +72,6 @@ int main(int argc, char** argv)
 	}
 	for(int i = 0; i < dim; i++)
 		rez<<x_0[i]<<endl;
-
+	*/
 	return 0;
 }
