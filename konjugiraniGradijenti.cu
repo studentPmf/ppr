@@ -6,14 +6,15 @@
 #include<fstream>
 using namespace std;
 
-int konjugiraniP(const double* A, const double* b, const double* x_0,int dim, double epsilon)
+int konjugiraniP(const double* A, double* b, const double* x_0,int dim, double epsilon)
 {
 	cublasHandle_t h;
 	cublasCreate(&h);
 	const double alph(1), bet(-1);
 	double tau, beta;
 	double * d_d, *pom_d, b_pom_d;
-	double *A_d, *b_d, x_d;
+	const double *A_d, x_d;
+	double *b_d;
 	size_t pitch, dim_d(dim);
 	int lda_d;
 	if(cudaMallocPitch(&A_d, &pitch, dim_d*sizeof(double), dim_d) != cudaSuccess )
