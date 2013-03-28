@@ -1,33 +1,10 @@
 #include<iostream>
 #include<cstdlib>
 #include<string>
-//#include<cuda_runtime.h>
-//#include<cblas.h>
 #include<fstream>
-#include"ks.h"
+#include "ks.h"
+#include "kp.h"
 using namespace std;
-
-//int konjugiraniS(double* a, double* b, double* cm ,double*d, int x, double y){return 0;};
-
-/*__global__ 
-void VecAdd(double* A, double* B, double* C, int N)
-{
-	int i = blockDim.x * blockIdx.x + threadIdx.x;
-
-	if( i < N )
-		C[i] = A[i] + B[i];
-}
-
-int KonjGrad(double *A, double *b, double* x_0, double epsilon, double *x_end, int dim)
-{
-	double a = cblas_ddot(dim,b,1,x_0,1);
-	cout<<a<<endl;
-	int k = 0;
-	double *r_0 = (double*)malloc(dim*sizeof(double));
-	
-	return 1;
-}
-*/
 
 
 void procitaj(double *data, int dim, ifstream& file)
@@ -73,7 +50,7 @@ int main(int argc, char** argv)
 	cout<<"unesite zadanu tocnost za su sustav :";
 	cin>>epsilon;
 
-	if(!konjugiraniS(A, b, x_0, x_end, dim, epsilon))
+	if(!konjugiraniS(A, b, x_0, dim, epsilon))
 	{
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
