@@ -2,8 +2,9 @@
 #include<string.h>
 #include<stdlib.h>
 #include<mkl.h>
+#include "ks.h"
 
-int konjugiraniS(double* A, double* b, double* x_0, double* x_end, int dim, int epsilon)
+int konjugiraniS(double* A, double* b, double* x_0, double* x_end, int dim, double epsilon)
 {
 	int inc = 1;
 	double alpha = 1, beta = -1;
