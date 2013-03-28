@@ -11,8 +11,8 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	cublasHandle_t h;
 	cublasCreate(&h);
 	double alph(1), bet(-1);
-	double tau, beta;
-	double * d_d, *pom_d, b_pom_d;
+	double tau;
+	double * d_d, *pom_d, *b_pom_d;
 	double *A_d, *b_d, *x_d;
 	size_t pitch, dim_d(dim);
 	int lda_d;
