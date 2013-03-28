@@ -13,7 +13,7 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	double alph(1), bet(-1);
 	double tau, beta;
 	double * d_d, *pom_d, b_pom_d;
-	double *A_d, *b_d, x_d;
+	double *A_d, *b_d, *x_d;
 	size_t pitch, dim_d(dim);
 	int lda_d;
 	if(cudaMallocPitch(&A_d, &pitch, dim_d*sizeof(double), dim_d) != cudaSuccess )
@@ -23,8 +23,8 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	}
 
 	cudaMemcpy2D(A_d,pitch,A,dim*sizeof(double),dim_d*sizeof(double),dim_d,cudaMemcpyDefault);
-	cudaMemcpy(&b_d, b, dim_d*sizeof(double), cudaMemcpyHostToDevice);
-	cudaMemcpy(&x_d, x_0, dim_d*sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(b_d, b, dim_d*sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(x_d, x_0, dim_d*sizeof(double), cudaMemcpyHostToDevice);
 	
 	if(cudaMalloc((void**)&d_d, dim_d*sizeof(double)) != cudaSuccess || \\
 		 cudaMalloc((void**)&pom_d, dim_d*sizeof(double)) != cudaSuccess || \\
