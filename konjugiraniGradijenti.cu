@@ -1,13 +1,13 @@
 #include<iostream>
 #include<cstdlib>
 #include<string>
-#include<cuda_runtime.h>
-#include<cblas.h>
+//#include<cuda_runtime.h>
+//#include<cblas.h>
 #include<fstream>
+#include<ks.h>
+//using namespace std;
 
-using namespace std;
-
-__global__ 
+/*__global__ 
 void VecAdd(double* A, double* B, double* C, int N)
 {
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
@@ -25,7 +25,7 @@ int KonjGrad(double *A, double *b, double* x_0, double epsilon, double *x_end, i
 	
 	return 1;
 }
-
+*/
 
 
 void procitaj(double *data, int dim, ifstream& file)
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 	cout<<"unesite zadanu tocnost za su sustav :";
 	cin>>epsilon;
 
-	if(!KonjGrad(A, b, x_0, epsilon, x_end, dim))
+	if(!konjugiraniS(A, b, x_0, epsilon, x_end, dim, 0.01))
 	{
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );

@@ -32,8 +32,3 @@ int konjugiraniS(double* A, double* b, double* x_0, double* x_end, int dim, int 
 	}	
 	return 1;
 }
-
-int main()
-{
-	return 0;
-}
