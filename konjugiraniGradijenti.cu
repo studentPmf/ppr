@@ -10,7 +10,7 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 {
 	cublasHandle_t h;
 	cublasCreate(&h);
-	double alph(1), bet(-1);
+	const double alph(1), bet(-1);
 	double tau, beta;
 	double * d_d, *pom_d, b_pom_d;
 	double *A_d, *b_d, x_d;
@@ -26,8 +26,9 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	cudaMemcpy((void**)&b_d, b, dim_d, cudaMemcpyHostToDevice);
 	cudaMemcpy((void**)&x_d, x_0, dim_d, cudaMemcpyHostToDevice);
 	
-	if(cudaMalloc(&d_d, dim_d) != cudaSuccess || cudaMalloc(&pom_d, dim_d) != cudaSuccess \\
-		|| cudaMalloc(&b_pom_d, dim_d) != cudaSuccess)
+	if(cudaMalloc((void**)&d_d, dim_d) != cudaSuccess || \\
+		 cudaMalloc((void**)&pom_d, dim_d) != cudaSuccess || \\
+		 cudaMalloc((void**)&b_pom_d, dim_d) != cudaSuccess)
 	{
 		cerr<<"Greska kod alokacije za pomocne varijable "<<endl;
 		exit(-1);
