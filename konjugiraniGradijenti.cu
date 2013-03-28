@@ -10,6 +10,33 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 {
 	cublasHandle_t h;
 	cublasCreate(&h);
+	double alph(1), bet(-1);
+	double tau, beta;
+	double * d_d, *pom_d, b_pom_d;
+	double *A_d, *b_d, x_d;
+	size_t pitch, dim_d(dim);
+	int lda_d;
+	if(cudaMallocPitch(&A_d, &pitch, dim_d*sizeof(double), dim_d) != cudaSuccess )
+	{
+		cerr<<"Greska kod alokacije polja"<<endl;
+		exit(-1);
+	}
+
+	cudaMemcpy2D(A_d,pitch,A,dim*sizeof(double),dim_d*sizeof(double),dim_d,cudaMemcpyDefault);
+	cudaMemcpy(b_d, b, dim_d, cudaMemcpyHostToDevice);
+	cudaMemcpy(x_d, x_0, dim_d, cudaMemcpyHostToDevice);
+	
+	if(cudaMalloc(&d_d, dim_d) != cudaSuccess || cudaMalloc(&pom, dim_d) != cudaSuccess \\
+		|| cudaMalloc(&b_pom_d, dim_d) != cudaSuccess)
+	{
+		cerr<<"Greska kod alokacije za pomocne varijable "<<endl;
+		exit(-1);
+	}
+	
+	lda_d = pitch/sizeof(double);
+
+	cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, x_d, 1, &bet, b_d, 1);
+
 	cublasDestroy(h);
 	return 1;
 }
