@@ -23,12 +23,12 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	}
 
 	cudaMemcpy2D(A_d,pitch,A,dim*sizeof(double),dim_d*sizeof(double),dim_d,cudaMemcpyDefault);
-	cudaMemcpy(b_d, b, dim_d, cudaMemcpyHostToDevice);
-	cudaMemcpy(x_d, x_0, dim_d, cudaMemcpyHostToDevice);
+	cudaMemcpy(&b_d, b, dim_d*sizeof(double), cudaMemcpyHostToDevice);
+	cudaMemcpy(&x_d, x_0, dim_d*sizeof(double), cudaMemcpyHostToDevice);
 	
-	if(cudaMalloc((void**)&d_d, dim_d) != cudaSuccess || \\
-		 cudaMalloc((void**)&pom_d, dim_d) != cudaSuccess || \\
-		 cudaMalloc((void**)&b_pom_d, dim_d) != cudaSuccess)
+	if(cudaMalloc((void**)&d_d, dim_d*sizeof(double)) != cudaSuccess || \\
+		 cudaMalloc((void**)&pom_d, dim_d*sizeof(double)) != cudaSuccess || \\
+		 cudaMalloc((void**)&b_pom_d, dim_d*sizeof(double)) != cudaSuccess)
 	{
 		cerr<<"Greska kod alokacije za pomocne varijable "<<endl;
 		exit(-1);
