@@ -6,7 +6,7 @@
 #include<fstream>
 using namespace std;
 
-int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
+int konjugiraniP(const double* A, const double* b, const double* x_0,int dim, double epsilon)
 {
 	cublasHandle_t h;
 	cublasCreate(&h);
