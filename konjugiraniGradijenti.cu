@@ -45,7 +45,7 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, d_d, 1, &bet, pom_d, 1);
 		double a, b;
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
-		cublasDot(h, dim, d_d, 1, pom_d, 1, &b);
+		cublasDdot(h, dim, d_d, 1, pom_d, 1, &b);
 		tau = a/b;
 		cublasDaxpy(h, dim, &tau, d_d, 1, x_d, 1);
 		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
