@@ -39,7 +39,38 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, x_d, 1, &bet, b_d, 1);
 	cublasDcopy(h, dim_d, b_d, 1, d_d, 1);
 	cublasDscal(h, dim_d, &bet, d_d, 1);
+	do{
+		double result;
+		bet = 0;
+		cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, d_d, 1, &bet, pom_d, 1);
+		double a, b;
+		ddot(h, dim, b_d, 1, b_d, 1, &a);
+		ddot(h, dim, d_d, 1, pom_d, 1, &b);
+		tau = a/b;
+		cublasDaxpy(h, dim, &tau, d_d, 1, x_d, 1);
+		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
+		cublasDgemv(h, CUBLAS_OP_N, dim, dim, &tau, A_d, lda_d, d_d, 1, &alph, b_d, 1);
+		double beta_k;
+		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
+		cublasDdot(h, dim, b_pom_d, 1, b_pom_d, 1, &b);
+		beta_k = a/b;
+		k = a/b;
+		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
+		bet = -1;
+		cublasDscal(h, dim, &bet, b_pom_d, 1);
+		cublasDaxpy(h, dim, &beta_k, d_d, 1, b_pom_d, 1);
+		cublasDcopy(h, dim, b_pom_d, 1, d_d, 1);
+		cublasDdot(h, dim, b_d, 1, b_d, 1, &result); 
+	}while(result > epsilon)
+	
+	cudaMemcpy(x_0, x_d, dim_d*sizeof(double), cudaMemcpyDeviceToHost);
 
+	cudaFree(A_d);
+	cudaFree(x_d);
+	cudaFree(b_d);
+	cudaFree(pom_d);
+	cudaFree(d_d);
+	cudaFree(b_pom_d);
 	cublasDestroy(h);
 	return 1;
 }
