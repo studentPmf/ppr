@@ -122,7 +122,7 @@ int main(int argc, char** argv)
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
 	}
-	/*
+  cout<<"zabrsio sam "<<endl;	
 	ofstream rez("rez.txt");
 	if(!file.is_open())
 	{
@@ -131,6 +131,6 @@ int main(int argc, char** argv)
 	}
 	for(int i = 0; i < dim; i++)
 		rez<<x_0[i]<<endl;
-	*/
+	
 	return 0;
 }
