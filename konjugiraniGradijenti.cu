@@ -37,6 +37,8 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	lda_d = pitch/sizeof(double);
 
 	cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, x_d, 1, &bet, b_d, 1);
+	cublasDcopy(h, dim_d, b_d, 1, d_d, 1);
+	cublasDscal(h, dim_d, &bet, d_d, 1);
 
 	cublasDestroy(h);
 	return 1;
