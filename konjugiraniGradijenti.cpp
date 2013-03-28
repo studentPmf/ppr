@@ -73,11 +73,20 @@ int main(int argc, char** argv)
 	cout<<"unesite zadanu tocnost za su sustav :";
 	cin>>epsilon;
 
-	if(!konjugiraniS(A, b, x_0, x_end, dim, 0.01))
+	if(!konjugiraniS(A, b, x_0, x_end, dim, epsilon))
 	{
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
 	}
+
+	ofstream rez("rez.txt");
+	if(!file.is_open())
+	{
+		cerr<<"greska kod otvoranja datoteke za rezultat";
+		exit(-1);
+	}
+	for(int i = 0; i < dim; i++)
+		rez<<x_0[i]<<endl;
 
 	return 0;
 }

@@ -31,5 +31,6 @@ int konjugiraniS(double* A, double* b, double* x_0, double* x_end, int dim, doub
 		daxpy(&dim, &beta_k, d, &inc, b_pom, &inc);
 		dcopy(&dim, b_pom, &inc, d, &inc);
 	}	
+	
 	return 1;
 }
