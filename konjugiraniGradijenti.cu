@@ -42,6 +42,7 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
 		cublasDdot(h, dim, d_d, 1, pom_d, 1, &b);
 		tau = a/b;
+		cout<<"tau = "<<tau<<endl;
 		cublasDaxpy(h, dim, &tau, d_d, 1, x_d, 1);
 		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
 		cublasDgemv(h, CUBLAS_OP_N, dim, dim, &tau, A_d, lda_d, d_d, 1, &alph, b_d, 1);
@@ -49,14 +50,14 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
 		cublasDdot(h, dim, b_pom_d, 1, b_pom_d, 1, &b);
 		beta_k = a/b;
-		cout<<beta_k<<endl;
+		cout<<"beta_k = "<<beta_k<<endl;
 		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
 		bet = -1;
 		cublasDscal(h, dim, &bet, b_pom_d, 1);
 		cublasDaxpy(h, dim, &beta_k, d_d, 1, b_pom_d, 1);
 		cublasDcopy(h, dim, b_pom_d, 1, d_d, 1);
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &result); 
-		cout<<result<<endl;
+		cout<<"rezultat = "<<result<<endl;
 	}while(result > epsilon);
 	
 	cudaMemcpy(x_0, b_d, size, cudaMemcpyDeviceToHost);
@@ -124,7 +125,7 @@ int main(int argc, char** argv)
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
 	}
-  cout<<"zabrsio sam "<<endl;	
+  cout<<"Izasao iz cude "<<endl;	
 	ofstream rez("rez.txt");
 	if(!file.is_open())
 	{
