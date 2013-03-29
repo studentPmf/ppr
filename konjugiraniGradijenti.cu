@@ -15,25 +15,23 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	double * d_d, *pom_d, *b_pom_d;
 	double *A_d, *b_d, *x_d;
 	size_t pitch, dim_d(dim);
+	size_t size = dim*sizeof(double);
 	int lda_d;
-	//double *s = (double*)malloc(dim*sizeof(double));
-	if(cudaMallocPitch(&A_d, &pitch, dim_d*sizeof(double), dim_d) != cudaSuccess )
-	{
-		cerr<<"Greska kod alokacije polja"<<endl;
-		exit(-1);
-	}
-	cudaMalloc(&b_d,dim*sizeof(double));
-	cudaMalloc(&x_d,dim*sizeof(double));
-	cudaMemcpy2D(A_d,pitch,A,dim*sizeof(double),dim_d*sizeof(double),dim_d,cudaMemcpyDefault);
-	cudaMemcpy(b_d, b, dim_d*sizeof(double), cudaMemcpyHostToDevice);
-	cudaMemcpy(x_d, x_0, dim_d*sizeof(double), cudaMemcpyHostToDevice);
+
+	cudaMallocPitch(&A_d, &pitch, size, dim_d);
+	cudaMalloc(&b_d, size);
+	cudaMalloc(&x_d, size);
+	cudaMemcpy2D(A_d, pitch, A, size, size, dim_d, cudaMemcpyDefault);
+	cudaMemcpy(b_d, b, size, cudaMemcpyHostToDevice);
+	cudaMemcpy(x_d, x_0, size, cudaMemcpyHostToDevice);
 	
-	cudaMalloc(&d_d, dim_d*sizeof(double));
-	cudaMalloc(&pom_d, dim_d*sizeof(double));
-	cudaMalloc(&b_pom_d, dim_d*sizeof(double));
+	cudaMalloc(&d_d, size);
+	cudaMalloc(&pom_d, size);
+	cudaMalloc(&b_pom_d,size);
 	
 	lda_d = pitch/sizeof(double);
 	cout<<"lda = "<<lda_d<<endl;
+
 	cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, x_d, 1, &bet, b_d, 1);
 	cublasDcopy(h, dim_d, b_d, 1, d_d, 1);
 	cublasDscal(h, dim_d, &bet, d_d, 1);
@@ -61,7 +59,8 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cout<<result<<endl;
 	}while(result > epsilon);
 	
-	cudaMemcpy((void**)&x_0, x_d, dim_d*sizeof(double), cudaMemcpyDeviceToHost);
+	cudaMemcpy(x_0, b_d, size, cudaMemcpyDeviceToHost);
+	
 	cout<<"Zavrsio sam sa cudom"<<endl;
 	cudaFree(A_d);
 	cudaFree(x_d);
