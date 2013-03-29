@@ -16,26 +16,24 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 	double *A_d, *b_d, *x_d;
 	size_t pitch, dim_d(dim);
 	int lda_d;
+	//double *s = (double*)malloc(dim*sizeof(double));
 	if(cudaMallocPitch(&A_d, &pitch, dim_d*sizeof(double), dim_d) != cudaSuccess )
 	{
 		cerr<<"Greska kod alokacije polja"<<endl;
 		exit(-1);
 	}
-
+	cudaMalloc(&b_d,dim*sizeof(double));
+	cudaMalloc(&x_d,dim*sizeof(double));
 	cudaMemcpy2D(A_d,pitch,A,dim*sizeof(double),dim_d*sizeof(double),dim_d,cudaMemcpyDefault);
 	cudaMemcpy(b_d, b, dim_d*sizeof(double), cudaMemcpyHostToDevice);
 	cudaMemcpy(x_d, x_0, dim_d*sizeof(double), cudaMemcpyHostToDevice);
 	
-	if(cudaMalloc((void**)&d_d, dim_d*sizeof(double)) != cudaSuccess || \\
-		 cudaMalloc((void**)&pom_d, dim_d*sizeof(double)) != cudaSuccess || \\
-		 cudaMalloc((void**)&b_pom_d, dim_d*sizeof(double)) != cudaSuccess)
-	{
-		cerr<<"Greska kod alokacije za pomocne varijable "<<endl;
-		exit(-1);
-	}
+	cudaMalloc(&d_d, dim_d*sizeof(double));
+	cudaMalloc(&pom_d, dim_d*sizeof(double));
+	cudaMalloc(&b_pom_d, dim_d*sizeof(double));
 	
 	lda_d = pitch/sizeof(double);
-
+	cout<<"lda = "<<lda_d<<endl;
 	cublasDgemv(h, CUBLAS_OP_N, dim, dim, &alph, A_d, lda_d, x_d, 1, &bet, b_d, 1);
 	cublasDcopy(h, dim_d, b_d, 1, d_d, 1);
 	cublasDscal(h, dim_d, &bet, d_d, 1);
@@ -53,16 +51,18 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
 		cublasDdot(h, dim, b_pom_d, 1, b_pom_d, 1, &b);
 		beta_k = a/b;
+		cout<<beta_k<<endl;
 		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
 		bet = -1;
 		cublasDscal(h, dim, &bet, b_pom_d, 1);
 		cublasDaxpy(h, dim, &beta_k, d_d, 1, b_pom_d, 1);
 		cublasDcopy(h, dim, b_pom_d, 1, d_d, 1);
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &result); 
+		cout<<result<<endl;
 	}while(result > epsilon);
 	
-	cudaMemcpy(x_0, x_d, dim_d*sizeof(double), cudaMemcpyDeviceToHost);
-
+	cudaMemcpy((void**)&x_0, x_d, dim_d*sizeof(double), cudaMemcpyDeviceToHost);
+	cout<<"Zavrsio sam sa cudom"<<endl;
 	cudaFree(A_d);
 	cudaFree(x_d);
 	cudaFree(b_d);
@@ -88,7 +88,7 @@ void procitaj(double *data, int dim, ifstream& file)
 int main(int argc, char** argv)
 {
 	int dim;
-	//double *A, *b, *x_0;
+	double *A, *b, *x_0;
 	std::string datIme;
 	std::cout<<"Unesite ime tekstualne datoteke u kojoj se nalazi zadani sustav: ";
 	std::cin>>datIme;
@@ -105,9 +105,12 @@ int main(int argc, char** argv)
 	}
 	
 	file>>dim;
-	double *A = (double*)malloc(dim*dim*sizeof(double));
-	double *b = (double*)malloc(dim*sizeof(double));
-	double *x_0 =(double*)malloc(dim*sizeof(double));
+	//double *A = (double*)malloc(dim*dim*sizeof(double));
+	//double *b = (double*)malloc(dim*sizeof(double));
+	//double *x_0 =(double*)malloc(dim*sizeof(double));
+	cudaHostAlloc(&A, dim*dim*sizeof(double),0);
+	cudaHostAlloc(&b, dim*sizeof(double),0);
+	cudaHostAlloc(&x_0, dim*sizeof(double),0);
 	double *x_end = (double*)malloc(dim*sizeof(double));
 	double epsilon;
 	procitaj(A, dim*dim, file);
