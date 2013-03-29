@@ -60,7 +60,7 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cout<<"rezultat = "<<result<<endl;
 	}while(result > epsilon);
 	
-	cudaMemcpy(x_0, b_d, size, cudaMemcpyDeviceToHost);
+	cudaMemcpy(x_0, x_d, size, cudaMemcpyDeviceToHost);
 	
 	cout<<"Zavrsio sam sa cudom"<<endl;
 	cudaFree(A_d);
