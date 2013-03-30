@@ -105,9 +105,6 @@ int main(int argc, char** argv)
 	}
 	
 	file>>dim;
-	//double *A = (double*)malloc(dim*dim*sizeof(double));
-	//double *b = (double*)malloc(dim*sizeof(double));
-	//double *x_0 =(double*)malloc(dim*sizeof(double));
 	cudaHostAlloc(&A, dim*dim*sizeof(double),0);
 	cudaHostAlloc(&b, dim*sizeof(double),0);
 	cudaHostAlloc(&x_0, dim*sizeof(double),0);
