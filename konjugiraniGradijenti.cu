@@ -4,7 +4,12 @@
 #include<cuda_runtime.h>
 #include<cublas_v2.h>
 #include<fstream>
+#include <time.h>
 using namespace std;
+
+double dsecnd (void) {
+    return (double)( clock( ) ) / CLOCKS_PER_SEC;
+}
 
 int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 {
@@ -42,7 +47,7 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
 		cublasDdot(h, dim, d_d, 1, pom_d, 1, &b);
 		tau = a/b;
-		cout<<"tau = "<<tau<<endl;
+		//cout<<"tau = "<<tau<<endl;
 		cublasDaxpy(h, dim, &tau, d_d, 1, x_d, 1);
 		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
 		cublasDgemv(h, CUBLAS_OP_N, dim, dim, &tau, A_d, lda_d, d_d, 1, &alph, b_d, 1);
@@ -50,19 +55,19 @@ int konjugiraniP(double* A, double* b, double* x_0, int dim, double epsilon)
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &a);
 		cublasDdot(h, dim, b_pom_d, 1, b_pom_d, 1, &b);
 		beta_k = a/b;
-		cout<<"beta_k = "<<beta_k<<endl;
+		//cout<<"beta_k = "<<beta_k<<endl;
 		cublasDcopy(h, dim, b_d, 1, b_pom_d, 1);
 		bet = -1;
 		cublasDscal(h, dim, &bet, b_pom_d, 1);
 		cublasDaxpy(h, dim, &beta_k, d_d, 1, b_pom_d, 1);
 		cublasDcopy(h, dim, b_pom_d, 1, d_d, 1);
 		cublasDdot(h, dim, b_d, 1, b_d, 1, &result); 
-		cout<<"rezultat = "<<result<<endl;
+		//cout<<"rezultat = "<<result<<endl;
 	}while(result > epsilon);
 	
 	cudaMemcpy(x_0, x_d, size, cudaMemcpyDeviceToHost);
 	
-	cout<<"Zavrsio sam sa cudom"<<endl;
+	//cout<<"Zavrsio sam sa cudom"<<endl;
 	cudaFree(A_d);
 	cudaFree(x_d);
 	cudaFree(b_d);
@@ -116,13 +121,15 @@ int main(int argc, char** argv)
 
 	cout<<"unesite zadanu tocnost za su sustav :";
 	cin>>epsilon;
-
+	
+	double t1 = dsecnd();
 	if(!konjugiraniP(A, b, x_0, dim, epsilon))
 	{
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
 	}
-  cout<<"Izasao iz cude "<<endl;	
+	t1 = dsecnd() - t1;
+  cout<<"Vrojeme izvrsavanja cuda coda je  "<<t1<<endl;	
 	ofstream rez("rez.txt");
 	if(!file.is_open())
 	{
