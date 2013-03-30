@@ -3,8 +3,13 @@
 #include<string>
 #include<fstream>
 #include "ks.h"
+#include<time.h>
 using namespace std;
 
+
+double dsecnd (void) {
+    return (double)( clock( ) ) / CLOCKS_PER_SEC;
+}
 
 void procitaj(double *data, int dim, ifstream& file)
 {
@@ -48,13 +53,14 @@ int main(int argc, char** argv)
 
 	cout<<"unesite zadanu tocnost za su sustav :";
 	cin>>epsilon;
-
+	double t1 = dsecnd();
 	if(!konjugiraniS(A, b, x_0, dim, epsilon))
 	{
 		cout<<"Doslo je do greske kod racuna "<<endl;
 		exit ( -1 );
 	}
-
+	t1 = dsecnd() - t1;
+	cout<<"Vrijeme izvodjenja je = "<<t1<<endl;
 	ofstream rez("rez.txt");
 	if(!file.is_open())
 	{
