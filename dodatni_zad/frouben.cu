@@ -44,8 +44,7 @@ int main(int argc, char*argv[])
   cudaMalloc(&fsum, 1*sizeof(int));
   funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
   cudaMemcpy(&result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
-  int a;
-  cout<<"rezultat je:"<<a<<endl;
+  cout<<"rezultat je:"<<result<<endl;
 
   free(M_h);
   cudaFree(M_d);
