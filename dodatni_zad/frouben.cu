@@ -26,6 +26,21 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
    //__syncthreads();
 }
 
+__global__ vecAdd(int *M, int dim, int *r)
+{
+  __shared__ int rez;
+  rez = 0;
+  __syncthreads();
+  int i = threadIdx.x;
+  int value(0);
+  if(i < dim)
+    value = M[i];
+  
+  atomicAdd(&rez, value);
+  
+  __syncthreads();
+  r[0] = rez;
+}
 
 int main(int argc, char*argv[])
 {
@@ -51,15 +66,20 @@ int main(int argc, char*argv[])
   cudaMalloc(&fsum, gridDimension*sizeof(int));
   funkc<<<blocksPerGrid, threadsPerBlock, gridDimension>>>(M_d, N, fsum);
   cudaMemcpy(result, fsum, gridDimension*sizeof(int), cudaMemcpyDeviceToHost);
+  int *r;
+  cudaMalloc(&r, sizeof(int));
+  vecAdd<<<1, gridDimension>>>(fsum, gridDimension, r);
+  int rezz = (int*)malloc(sizeod(int));
+  cudaMemcpy(rezz, r, sizeof(int), cudaMemcpyDeviceToHost);
 
-
+  cout<<endl<<"presuma = "<<rezz[0]<<endl;
   int suma = 0;
   for (int s(0); s < gridDimension; s++)
   {
     suma+=result[s];
     cout<<"rezultat je:"<<result[s]<<endl;
   }
-
+  
   cout<<endl<<"Konacan rezultat je : "<<sqrt(suma)<<endl;
 
   free(M_h);
