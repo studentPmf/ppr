@@ -4,7 +4,7 @@
 
 using namespace std;
 
-__global__ void func(int *M, int dim)
+__global__ void funkc(int *M, int dim)
 {
   unsigned int rez;
   __shared__ unsigned int sum;
@@ -12,7 +12,7 @@ __global__ void func(int *M, int dim)
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
   if (i < N && j < N)
-     rez = M[N+i+j]*M[N*i+j]
+     rez = M[N+i+j]*M[N*i+j];
 
    __syncthreads();
    atomicAdd(&sum, rez);
@@ -38,7 +38,7 @@ int main(int argc, char*argv[])
   dim3 threadsPerBlock(16,16);
   int blocksPerGrid = ((N / threadsPerBlock.x) + 1, (N/ threadsPerBlock.y) + 1);
 
-  funkc<<blocksPerGrid, threadsPerBlock>>>(M_d, N);
+  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N);
 
   free(M_h);
   cudaFree(M_d);
