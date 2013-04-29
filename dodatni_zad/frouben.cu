@@ -22,7 +22,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
    atomicAdd(&sum[blockIdx.x*gridDim.x + blockIdx.y], rez);
    //__syncthreads();
 
-   fsum[blockIdx.x*gridDim.x + blockIdx.y] = 1;// sum[blockIdx.x*gridDim.x + blockIdx.y] ;
+   fsum[blockIdx.x*gridDim.x + blockIdx.y] =  sum[blockIdx.x*gridDim.x + blockIdx.y] ;
    //__syncthreads();
 }
 
