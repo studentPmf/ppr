@@ -68,7 +68,7 @@ int main(int argc, char*argv[])
   unsigned int *rez;
   cudaMalloc(&rez,1*sizeof(int));
   VecAdd<<<1, blocksPerGrid.x*blocksPerGrid.y>>>(rez,  blocksPerGrid.x*blocksPerGrid.y);  
-  cudaMemcpy(result, rez, 1*sizeof(int), cudaMemcpyDeviceToHost);
+  cudaMemcpy(&result, rez, 1*sizeof(int), cudaMemcpyDeviceToHost);
 
   cout<<"rezultat je:"<<result<<endl;
 
