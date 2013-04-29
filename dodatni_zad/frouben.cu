@@ -44,14 +44,15 @@ int main(int argc, char*argv[])
 
   dim3 threadsPerBlock(32,32);
   dim3 blocksPerGrid((N/threadsPerBlock.x) + 1, (N/threadsPerBlock.y) + 1);
+  int gridDimension = blocksPerGrid.x*blocksPerGrid.y;
   cout<<blocksPerGrid.x<<","<<blocksPerGrid.y<<endl;
-  int *result = (int*)malloc(blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
+  int *result = (int*)malloc(gridDimension*sizeof(int));
   unsigned int *fsum;
-  cudaMalloc(&fsum, blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
+  cudaMalloc(&fsum, gridDimension*sizeof(int));
   funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
   cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
-
-  cout<<"rezultat je:"<<result[0]<<endl;
+  for (int s(0); s < gridDimension; s++)
+    cout<<"rezultat je:"<<result[s]<<endl;
 
   free(M_h);
   cudaFree(M_d);
