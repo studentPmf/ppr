@@ -4,10 +4,10 @@
 
 using namespace std;
 
-__global__ void funkc(int *M, int dim)
+__global__ void funkc(int *M, int dim, unsigned int *fsum)
 {
   unsigned int rez;
-  __shared__ unsigned int sum;
+  __shared__ unsigned int sum = 0;
 
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -17,6 +17,8 @@ __global__ void funkc(int *M, int dim)
    __syncthreads();
    atomicAdd(&sum, rez);
    __syncthreads();
+
+   fsum[0] = sum;
 }
 
 
@@ -37,11 +39,16 @@ int main(int argc, char*argv[])
 
   dim3 threadsPerBlock(16,16);
   int blocksPerGrid = ((N / threadsPerBlock.x) + 1, (N/ threadsPerBlock.y) + 1);
-
-  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N);
+  int result;
+  int *fsum;
+  cudaMalloc(&fsum, 1*sizeof(int));
+  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
+  cudaMemcpy(&result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
+  cout<<"rezultat je:"<<result<<endl;
 
   free(M_h);
   cudaFree(M_d);
+  cudaFree(fsum);
 
   return 0;
 }
