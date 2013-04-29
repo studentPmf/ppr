@@ -40,7 +40,7 @@ int main(int argc, char*argv[])
   dim3 threadsPerBlock(16,16);
   int blocksPerGrid = ((N / threadsPerBlock.x) + 1, (N/ threadsPerBlock.y) + 1);
   int result;
-  int *fsum;
+  unsigned int *fsum;
   cudaMalloc(&fsum, 1*sizeof(int));
   funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
   cudaMemcpy(&result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
