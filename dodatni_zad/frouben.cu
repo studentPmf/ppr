@@ -69,7 +69,7 @@ int main(int argc, char*argv[])
   int *r;
   cudaMalloc(&r, sizeof(int));
   vecAdd<<<1, gridDimension>>>(fsum, gridDimension, r);
-  int rezz = (int*)malloc(sizeod(int));
+  int *rezz = (int*)malloc(sizeof(int));
   cudaMemcpy(rezz, r, sizeof(int), cudaMemcpyDeviceToHost);
 
   cout<<endl<<"presuma = "<<rezz[0]<<endl;
