@@ -44,6 +44,7 @@ int main(int argc, char*argv[])
 
   dim3 threadsPerBlock(32,32);
   dim3 blocksPerGrid((N/threadsPerBlock.x) + 1, (N/threadsPerBlock.y) + 1);
+  cout<<blocksPerGrid.x<<","<<blocksPerGrid.y<<endl;
   int result;
   unsigned int *fsum;
   cudaMalloc(&fsum, 1*sizeof(int));
