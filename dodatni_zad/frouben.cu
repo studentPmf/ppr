@@ -10,6 +10,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   extern __shared__ int sum[];
 
   sum[blockIdx.x*gridDim.x + blockIdx.y] = 0;
+  __syncthreads();
 
   int val(0);
 
@@ -18,8 +19,8 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   int j = blockIdx.y * blockDim.y + threadIdx.y;
   if (i < dim && j < dim)
      rez = M[dim+i+j]*M[dim*i+j];
-  else
-    rez = 0;
+  /*else
+    rez = 0;*/
 
    atomicAdd((int*)&sum[blockIdx.x*gridDim.x + blockIdx.y], rez);
    //__syncthreads();
@@ -31,7 +32,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
 
 int main(int argc, char*argv[])
 {
-  int N(50);
+  int N(100);
 
   size_t size = N*N*sizeof(int);
 
@@ -51,7 +52,7 @@ int main(int argc, char*argv[])
   int *result = (int*)malloc(gridDimension*sizeof(int));
   unsigned int *fsum;
   cudaMalloc(&fsum, gridDimension*sizeof(int));
-  funkc<<<blocksPerGrid, threadsPerBlock,4>>>(M_d, N,fsum);
+  funkc<<<blocksPerGrid, threadsPerBlock,gridDimension>>>(M_d, N, fsum);
   cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
   for (int s(0); s < gridDimension; s++)
     cout<<"rezultat je:"<<result[s]<<endl;
