@@ -23,7 +23,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
    atomicAdd((int*)&sum, rez);
    __syncthreads();
 
-   fsum[0] = sum;
+   fsum[blockIdx.x*blockDim.x + blockIdx.y] = sum;
    __syncthreads();
 }
 
@@ -46,12 +46,12 @@ int main(int argc, char*argv[])
   dim3 threadsPerBlock(32,32);
   dim3 blocksPerGrid((N/threadsPerBlock.x) + 1, (N/threadsPerBlock.y) + 1);
   cout<<blocksPerGrid.x<<","<<blocksPerGrid.y<<endl;
-  int result;
+  int *result = (int*)malloc(blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
   unsigned int *fsum;
-  cudaMalloc(&fsum, 1*sizeof(int));
+  cudaMalloc(&fsum, blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
   funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
-  cudaMemcpy(&result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
-  cout<<"rezultat je:"<<result<<endl;
+  cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
+  cout<<"rezultat je:"<<result[0]<<endl;
 
   free(M_h);
   cudaFree(M_d);
