@@ -26,7 +26,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
    //__syncthreads();
 }
 
-__global__ void vecAdd(int *M, int dim, int *r)
+__global__ void vecAdd(unsigned int *M, int dim, int *r)
 {
   __shared__ int rez;
   rez = 0;
