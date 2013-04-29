@@ -15,7 +15,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
      rez = M[dim+i+j]*M[dim*i+j];
 
    __syncthreads();
-   atomicAdd(&sum, rez);
+   atomicAdd((int*)&sum, rez);
    __syncthreads();
 
    fsum[0] = sum;
