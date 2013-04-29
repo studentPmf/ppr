@@ -13,7 +13,8 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   int j = blockIdx.y * blockDim.y + threadIdx.y;
   if (i < dim && j < dim)
      rez = M[dim+i+j]*M[dim*i+j];
-
+  else
+    rez = 0;
    __syncthreads();
    atomicAdd((int*)&sum, rez);
    __syncthreads();
