@@ -83,7 +83,7 @@ int main(int argc, char*argv[])
 
   cudaMemcpy(result, fsum, gridDimension*sizeof(int), cudaMemcpyDeviceToHost);
   int *vectorSum;
-  cudaMalloc(&r, sizeof(int));
+  cudaMalloc(&vectorSum, sizeof(int));
   
   // poziv funkcije za racunanje zbroja dobivenih suma
   vecAdd<<<1, gridDimension>>>(fsum, gridDimension, vectorSum);
