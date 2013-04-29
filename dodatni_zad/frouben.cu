@@ -29,7 +29,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
 
 int main(int argc, char*argv[])
 {
-  int N(10);
+  int N(50);
 
   size_t size = N*N*sizeof(int);
 
