@@ -60,12 +60,12 @@ int main(int argc, char*argv[])
   dim3 threadsPerBlock(32,32);
   dim3 blocksPerGrid((N/threadsPerBlock.x) + 1, (N/threadsPerBlock.y) + 1);
   cout<<blocksPerGrid.x<<","<<blocksPerGrid.y<<endl;
-  int result;
+  int *result = (int*)malloc(sizeof(int));
   unsigned int *ptr;
   cudaMalloc(&ptr, blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
   cudaMemcpyToSymbol(fsum, &ptr, sizeof(ptr));
   funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N);
-  int *rez;
+  unsigned int *rez;
   cudaMalloc(&rez,1*sizeof(int));
   VecAdd<<<1, blocksPerGrid.x*blocksPerGrid.y>>>(rez,  blocksPerGrid.x*blocksPerGrid.y);  
   cudaMemcpy(result, rez, 1*sizeof(int), cudaMemcpyDeviceToHost);
