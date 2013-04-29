@@ -7,9 +7,9 @@ using namespace std;
 __global__ void funkc(int *M, int dim, unsigned int *fsum)
 {
   unsigned int rez;
-  __shared__ unsigned int sum;
+  __shared__ unsigned int sum[gridDim.x*gridDim.y];
 
-  sum = 0;
+  sum[blockIdx.x*gridDim.x + blockIdx.y]  = 0;
   __syncthreads();
 
   int i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -19,10 +19,10 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   else
     rez = 0;
 
-   atomicAdd((int*)&sum, rez);
+   atomicAdd((int*)&sum[blockIdx.x*gridDim.x + blockIdx.y], rez);
    //__syncthreads();
 
-   fsum[blockIdx.x*gridDim.x + blockIdx.y] = sum;
+   fsum[blockIdx.x*gridDim.x + blockIdx.y] = sum[blockIdx.x*gridDim.x + blockIdx.y] ;
    //__syncthreads();
 }
 
