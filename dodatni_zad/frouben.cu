@@ -31,7 +31,7 @@ int main(int argc, char*argv[])
   int *M_h = (int*)malloc(size);
 
   for(int i(0); i < N*N; i++)
-    M_h[i] = i%3;
+    M_h[i] = 1;
 
   int *M_d;
   cudaMalloc(&M_d, size);
