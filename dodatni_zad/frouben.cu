@@ -9,7 +9,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   unsigned int rez;
   extern __shared__ int sum[];
 
-  //sum[blockIdx.x*gridDim.x + blockIdx.y] = 0;
+  sum[blockIdx.x*gridDim.x + blockIdx.y] = 0;
   __syncthreads();
 
   int i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -49,8 +49,8 @@ int main(int argc, char*argv[])
   int *result = (int*)malloc(gridDimension*sizeof(int));
   unsigned int *fsum;
   cudaMalloc(&fsum, gridDimension*sizeof(int));
-  funkc<<<blocksPerGrid, threadsPerBlock,gridDimension>>>(M_d, N, fsum);
-  cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
+  funkc<<<blocksPerGrid, threadsPerBlock, gridDimension>>>(M_d, N, fsum);
+  cudaMemcpy(result, fsum, gridDimension*sizeof(int), cudaMemcpyDeviceToHost);
   for (int s(0); s < gridDimension; s++)
     cout<<"rezultat je:"<<result[s]<<endl;
 
