@@ -8,16 +8,17 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
 {
   unsigned int rez;
   __shared__ unsigned int sum;
-
+  sum = 0;
+  __syncthreads();
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
   if (i < dim && j < dim)
      rez = M[dim+i+j]*M[dim*i+j];
   else
     rez = 0;
+  
    __syncthreads();
    //atomicAdd((int*)&sum, rez);
-   sum += rez;
    __syncthreads();
 
    fsum[0] = sum;
