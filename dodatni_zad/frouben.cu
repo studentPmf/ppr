@@ -101,7 +101,7 @@ int main(int argc, char*argv[])
   free(sumAll);
   cudaFree(M_d);
   cudaFree(fsum);
-  cudaFree(r);
+  cudaFree(vectorSum);
 
   return 0;
 }
