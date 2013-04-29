@@ -9,7 +9,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   unsigned int rez;
   extern __shared__ int sum[];
 
-  sum[blockIdx.x*gridDim.x + blockIdx.y] = 0;
+  //sum[blockIdx.x*gridDim.x + blockIdx.y] = 0;
   __syncthreads();
 
   int i = blockIdx.x * blockDim.x + threadIdx.x;
