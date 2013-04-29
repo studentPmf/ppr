@@ -7,7 +7,7 @@ using namespace std;
 __global__ void funkc(int *M, int dim, unsigned int *fsum)
 {
   unsigned int rez;
-  extern  __shared__ unsigned int *sum;
+  extern  __shared__ unsigned int *sum[];
 
   sum[blockIdx.x*gridDim.x + blockIdx.y]  = 0;
   __syncthreads();
