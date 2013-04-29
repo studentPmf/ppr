@@ -49,7 +49,7 @@ int main(int argc, char*argv[])
   int *result = (int*)malloc(gridDimension*sizeof(int));
   unsigned int *fsum;
   cudaMalloc(&fsum, gridDimension*sizeof(int));
-  funkc<<<blocksPerGrid, threadsPerBlock, gridDimension*sizeof(unsigned int)>>>(M_d, N,fsum);
+  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
   cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
   for (int s(0); s < gridDimension; s++)
     cout<<"rezultat je:"<<result[s]<<endl;
