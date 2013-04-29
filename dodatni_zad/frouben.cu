@@ -51,8 +51,16 @@ int main(int argc, char*argv[])
   cudaMalloc(&fsum, gridDimension*sizeof(int));
   funkc<<<blocksPerGrid, threadsPerBlock, gridDimension>>>(M_d, N, fsum);
   cudaMemcpy(result, fsum, gridDimension*sizeof(int), cudaMemcpyDeviceToHost);
+
+
+  int suma = 0;
   for (int s(0); s < gridDimension; s++)
+  {
+    suma+=result[s];
     cout<<"rezultat je:"<<result[s]<<endl;
+  }
+
+  cout<<endl<<"Konacan rezultat je : "<<sqrt(suma)<<endl;
 
   free(M_h);
   cudaFree(M_d);
