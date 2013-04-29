@@ -4,7 +4,9 @@
 
 using namespace std;
 
-__global__ void funkc(int *M, int dim, unsigned int *fsum)
+__device__ unsigned int *fsum;
+
+__global__ void funkc(int *M, int dim)
 {
   unsigned int rez;
   __shared__ unsigned int sum;
@@ -19,14 +21,26 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   else
     rez = 0;
 
-   //__syncthreads();
    atomicAdd((int*)&sum, rez);
-   //__syncthreads();
-
+   __syncthreads();
    fsum[blockIdx.x*blockDim.x + blockIdx.y] = sum;
-   //__syncthreads();
 }
 
+__global__ void VecAdd(unsigned int *rez, int dim)
+{
+  int i = threadIdx.x;
+  int val(0);
+  __shared__ unsigned int sum;
+  sum = 0;
+  __syncthreads();
+
+  if(i < dim)
+     val = fsum[i];
+
+  atomicAdd((int*)&sum, val);
+  __syncthreads();
+  rez[0] = sum;
+}
 
 int main(int argc, char*argv[])
 {
@@ -46,13 +60,17 @@ int main(int argc, char*argv[])
   dim3 threadsPerBlock(32,32);
   dim3 blocksPerGrid((N/threadsPerBlock.x) + 1, (N/threadsPerBlock.y) + 1);
   cout<<blocksPerGrid.x<<","<<blocksPerGrid.y<<endl;
-  int *result = (int*)malloc(blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
-  unsigned int *fsum;
-  cudaMalloc(&fsum, blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
-  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
-  cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
+  int result;
+  unsigned int *ptr;
+  cudaMalloc(&ptr, blocksPerGrid.x*blocksPerGrid.y*sizeof(int));
+  cudaMemcpyToSymbol(fsum, &ptr, sizeof(ptr));
+  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N);
+  int *rez;
+  cudaMalloc(&rez,1*sizeof(int));
+  VecAdd<<<1, blocksPerGrid.x*blocksPerGrid.y>>>(rez,  blocksPerGrid.x*blocksPerGrid.y);  
+  cudaMemcpy(result, rez, 1*sizeof(int), cudaMemcpyDeviceToHost);
 
-  cout<<"rezultat je:"<<result[0]<<endl;
+  cout<<"rezultat je:"<<result<<endl;
 
   free(M_h);
   cudaFree(M_d);
