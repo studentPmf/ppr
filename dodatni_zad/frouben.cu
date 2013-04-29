@@ -8,15 +8,17 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
 {
   unsigned int rez;
   __shared__ unsigned int sum;
+
   sum = 0;
   __syncthreads();
+
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
   if (i < dim && j < dim)
      rez = M[dim+i+j]*M[dim*i+j];
   else
     rez = 0;
-  
+
    __syncthreads();
    atomicAdd((int*)&sum, rez);
    __syncthreads();
@@ -34,14 +36,14 @@ int main(int argc, char*argv[])
   int *M_h = (int*)malloc(size);
 
   for(int i(0); i < N*N; i++)
-    M_h[i] = 1;
+    M_h[i] = 1;//i%3; // elements in the matrix is less than 3
 
   int *M_d;
   cudaMalloc(&M_d, size);
   cudaMemcpy(M_d, M_h, size, cudaMemcpyHostToDevice);
 
-  dim3 threadsPerBlock(16,16);
-  dim3 blocksPerGrid((N / threadsPerBlock.x) + 1, (N/ threadsPerBlock.y) + 1);
+  dim3 threadsPerBlock(32,32);
+  dim3 blocksPerGrid((N/threadsPerBlock.x) + 1, (N/threadsPerBlock.y) + 1);
   int result;
   unsigned int *fsum;
   cudaMalloc(&fsum, 1*sizeof(int));
