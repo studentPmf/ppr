@@ -11,7 +11,7 @@ __global__ void funkc(int *M, int dim)
 
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
-  if (i < N && j < N)
+  if (i < dim && j < dim)
      rez = M[N+i+j]*M[N*i+j];
 
    __syncthreads();
