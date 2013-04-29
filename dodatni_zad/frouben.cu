@@ -7,10 +7,12 @@ using namespace std;
 __global__ void funkc(int *M, int dim, unsigned int *fsum)
 {
   unsigned int rez;
-  extern  __shared__ unsigned int sum[];
+  extern __shared__ int sum[];
 
-  sum[blockIdx.x*gridDim.x + blockIdx.y]  = 0;
-  __syncthreads();
+  sum[blockIdx.x*gridDim.x + blockIdx.y] = 0;
+
+  int val(0);
+
 
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -49,7 +51,7 @@ int main(int argc, char*argv[])
   int *result = (int*)malloc(gridDimension*sizeof(int));
   unsigned int *fsum;
   cudaMalloc(&fsum, gridDimension*sizeof(int));
-  funkc<<<blocksPerGrid, threadsPerBlock>>>(M_d, N,fsum);
+  funkc<<<blocksPerGrid, threadsPerBlock,4>>>(M_d, N,fsum);
   cudaMemcpy(result, fsum, 1*sizeof(int), cudaMemcpyDeviceToHost);
   for (int s(0); s < gridDimension; s++)
     cout<<"rezultat je:"<<result[s]<<endl;
