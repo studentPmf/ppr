@@ -74,7 +74,7 @@ int main(int argc, char*argv[])
 
   free(M_h);
   cudaFree(M_d);
-  cudaFree(fsum);
+  //cudaFree(fsum);
 
   return 0;
 }
