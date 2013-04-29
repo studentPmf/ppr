@@ -24,6 +24,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
    __syncthreads();
 
    fsum[0] = sum;
+   __syncthreads();
 }
 
 
