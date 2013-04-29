@@ -38,7 +38,7 @@ int main(int argc, char*argv[])
   cudaMemcpy(M_d, M_h, size, cudaMemcpyHostToDevice);
 
   dim3 threadsPerBlock(16,16);
-  int blocksPerGrid = ((N / threadsPerBlock.x) + 1, (N/ threadsPerBlock.y) + 1);
+  dim3 blocksPerGrid = ((N / threadsPerBlock.x) + 1, (N/ threadsPerBlock.y) + 1);
   int result;
   unsigned int *fsum;
   cudaMalloc(&fsum, 1*sizeof(int));
