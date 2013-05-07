@@ -18,7 +18,7 @@ __global__ void funkc(int *M, int dim, unsigned int *fsum)
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   int j = blockIdx.y * blockDim.y + threadIdx.y;
   if (i < dim && j < dim)
-     rez = M[dim+i+j]*M[dim*i+j];
+     rez = M[dim*i+j]*M[dim*i+j];
   else
     rez = 0;
 
