@@ -106,15 +106,13 @@ int main(int argc, const char* argv[])
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
   
-  for(int j = 0; j < 5; j++)
-  {
-    create_pseud_numbers(hostData, numElements);
-    /* Show result */
-    for( int i = 0; i < numElements; i++) {
-      printf("%1.4f ", hostData[i]);
-    }
-    cout<<endl;
-    free(hostData);
+  create_pseud_numbers(hostData, numElements);
+  
+  /* Show result */
+  for( int i = 0; i < numElements; i++) {
+    printf("%1.4f ", hostData[i]);
   }
+  cout<<endl;
+  free(hostData);
 
 }
