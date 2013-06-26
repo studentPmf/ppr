@@ -20,14 +20,11 @@ using namespace std;
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
 
-int create_pseud_numbers(float *hostData, int numElements)
+int create_pseud_numbers(float *hostData, float *devData, int numElements)
 {
   size_t n = numElements;
   curandGenerator_t gen;
-  float *devData;
-
-  /* Allocate n floats on device */
-  CUDA_CALL(cudaMalloc((void **)&devData, n*sizeof(float)));
+  //float *devData;
 
   /* Create pseudo-random number generator */
   CURAND_CALL(curandCreateGenerator(&gen, 
@@ -105,14 +102,16 @@ int main(int argc, const char* argv[])
   float * hostData;
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
-  
+    /* Allocate n floats on device */
+  CUDA_CALL(cudaMalloc((void **)&devData, n*sizeof(float)));
+
   create_pseud_numbers(hostData, numElements);
   
   /* Show result */
-  for( int i = 0; i < numElements; i++) {
+  /*for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
-  cout<<endl;
+  cout<<endl;*/
   free(hostData);
-
+  
 }
