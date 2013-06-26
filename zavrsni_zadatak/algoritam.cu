@@ -29,7 +29,7 @@ int main(int argc, const char* argv[])
      Sve se sprema u vektor
      Ime datoteke se cita s kom. linije
   */
-  thrust::host_vector<int> indElements // vektor veza za sve vrhove, format v1v20v1v3v40...
+  thrust::host_vector<int> indElements; // vektor veza za sve vrhove, format v1v20v1v3v40...
   ifstream myFile (argv[1]);
   
   if(myFile.is_open())
