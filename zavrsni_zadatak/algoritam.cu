@@ -105,7 +105,7 @@ int main(int argc, const char* argv[])
     /* Allocate n floats on device */
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
 
-  create_pseud_numbers(hostData, numElements);
+  create_pseud_numbers(hostData, devData, numElements);
   
   /* Show result */
   /*for( int i = 0; i < numElements; i++) {
