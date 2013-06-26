@@ -20,7 +20,7 @@ using namespace std;
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
 
-void create_pseud_numbers(float *hostData, numElements)
+void create_pseud_numbers(float *hostData, int numElements)
 {
   size_t n = numElements;
   size_t i;
