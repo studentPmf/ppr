@@ -22,12 +22,9 @@ using namespace std;
 
 int create_pseud_numbers(float *hostData, int numElements)
 {
-  size_t n = 5;//numElements;
+  size_t n = numElements;
   curandGenerator_t gen;
   float *devData;
-
-  /* Allocate n floats on host */
-  hostData = (float *)calloc(n, sizeof(float));
 
   /* Allocate n floats on device */
   CUDA_CALL(cudaMalloc((void **)&devData, n*sizeof(float)));
@@ -50,6 +47,8 @@ int create_pseud_numbers(float *hostData, int numElements)
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));
   CUDA_CALL(cudaFree(devData));
+
+  return EXIT_SUCCESS;
 }
 
 
@@ -104,6 +103,8 @@ int main(int argc, const char* argv[])
   thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
   
   float * hostData;
+    /* Allocate n floats on host */
+  hostData = (float *)calloc(n, sizeof(float));
   
   //for(int j = 0; j < 5; j++)
   //{
