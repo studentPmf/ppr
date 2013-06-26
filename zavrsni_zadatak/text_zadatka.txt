@@ -1,0 +1,2 @@
+Napišite CUDA program koji traži maksimalni nezavisni skup vrhova
+u grafu korištenjem paralelnog algoritma koji koristi slučajne brojeve.
