@@ -106,8 +106,8 @@ int main(int argc, const char* argv[])
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
   
-  //for(int j = 0; j < 5; j++)
-  //{
+  for(int j = 0; j < 5; j++)
+  {
     create_pseud_numbers(hostData, numElements);
     /* Show result */
     for( int i = 0; i < numElements; i++) {
@@ -115,6 +115,6 @@ int main(int argc, const char* argv[])
     }
     cout<<endl;
     free(hostData);
-  //}
+  }
 
 }
