@@ -99,7 +99,7 @@ int main(int argc, const char* argv[])
   thrust::device_vector<int> DindElements = indElements; // vektor elemenata
   thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
   
-  float * hostData;
+  float * hostData, *devData;
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
     /* Allocate n floats on device */
