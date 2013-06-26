@@ -20,6 +20,39 @@ using namespace std;
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
 
+void create_pseud_numbers(float *hostData, numElements)
+{
+  size_t n = numElements;
+  size_t i;
+  curandGenerator_t gen;
+  float *devData;
+
+  /* Allocate n floats on host */
+  hostData = (float *)calloc(n, sizeof(float));
+
+  /* Allocate n floats on device */
+  CUDA_CALL(cudaMalloc((void **)&devData, n*sizeof(float)));
+
+  /* Create pseudo-random number generator */
+  CURAND_CALL(curandCreateGenerator(&gen, 
+                CURAND_RNG_PSEUDO_DEFAULT));
+
+  /* Set seed */
+  CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, 
+                1234ULL));
+
+  /* Generate n floats on device */
+  CURAND_CALL(curandGenerateUniform(gen, devData, n));
+
+  /* Copy device memory to host */
+  CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
+        cudaMemcpyDeviceToHost));
+
+  /* Cleanup */
+  CURAND_CALL(curandDestroyGenerator(gen));
+  CUDA_CALL(cudaFree(devData));
+}
+
 
 int main(int argc, const char* argv[])
 {
@@ -71,41 +104,16 @@ int main(int argc, const char* argv[])
   thrust::device_vector<int> DindElements = indElements; // vektor elemenata
   thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
   
-  size_t n = numElements;
-  size_t i;
-  curandGenerator_t gen;
-  float *devData, *hostData;
+  float * hostData;
 
-  /* Allocate n floats on host */
-  hostData = (float *)calloc(n, sizeof(float));
-
-  /* Allocate n floats on device */
-  CUDA_CALL(cudaMalloc((void **)&devData, n*sizeof(float)));
-
-  /* Create pseudo-random number generator */
-  CURAND_CALL(curandCreateGenerator(&gen, 
-                CURAND_RNG_PSEUDO_DEFAULT));
-
-  /* Set seed */
-  CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, 
-                1234ULL));
-
-  /* Generate n floats on device */
-  CURAND_CALL(curandGenerateUniform(gen, devData, n));
-
-  /* Copy device memory to host */
-  CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
-        cudaMemcpyDeviceToHost));
-
+  create_pseud_numbers(hostData, numElements);
+  
   /* Show result */
   for(i = 0; i < n; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
 
-  /* Cleanup */
-  CURAND_CALL(curandDestroyGenerator(gen));
-  CUDA_CALL(cudaFree(devData));
-  free(hostData);
+ //free(hostData);
 
 }
