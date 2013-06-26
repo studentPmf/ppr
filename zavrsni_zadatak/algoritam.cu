@@ -31,7 +31,7 @@ int main(int argc, const char* argv[])
   */
   thrust::host_vector<thrust::host_vector<int> > indElements; 
   string fileName = argv[1];
-  ifstream myFile(fileName);
+  ifstream myFile(argv[1]);
   
   if(myFile.is_open())
   {
