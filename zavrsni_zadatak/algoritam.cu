@@ -106,16 +106,15 @@ int main(int argc, const char* argv[])
   
   float * hostData;
   
-  for(j = 0; j < 5; j++)
+  for(int j = 0; j < 5; j++)
   {
     create_pseud_numbers(hostData, numElements);
-  /* Show result */
-  for(i = 0; i < n; i++) {
-    printf("%1.4f ", hostData[i]);
-  }
-  cout<<endl;
-  
- free(hostData);
+    /* Show result */
+    for(i = 0; i < n; i++) {
+      printf("%1.4f ", hostData[i]);
+    }
+    cout<<endl;
+    free(hostData);
   }
 
 }
