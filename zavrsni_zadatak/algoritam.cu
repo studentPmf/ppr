@@ -22,8 +22,7 @@ using namespace std;
 
 void create_pseud_numbers(float *hostData, int numElements)
 {
-  size_t n = numElements;
-  size_t i;
+  size_t n = 5;//numElements;
   curandGenerator_t gen;
   float *devData;
 
@@ -110,7 +109,7 @@ int main(int argc, const char* argv[])
   //{
     create_pseud_numbers(hostData, numElements);
     /* Show result */
-    for(i = 0; i < n; i++) {
+    for( int i = 0; i < numElements; i++) {
       printf("%1.4f ", hostData[i]);
     }
     cout<<endl;
