@@ -30,8 +30,7 @@ int main(int argc, const char* argv[])
      Ime datoteke se cita s kom. linije
   */
   thrust::host_vector<int> indElements // vektor veza za sve vrhove, format v1v20v1v3v40...
-  string fileName = argv[1];
-  ifstream myFile (string);
+  ifstream myFile (argv[1]);
   
   if(myFile.is_open())
   {
