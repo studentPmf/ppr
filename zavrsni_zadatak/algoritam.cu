@@ -49,7 +49,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 }
 
 __device__
-void algoritam(thrust::device_vector* veze, thrust::device_vector* ptr, thrust::device_vector izbaceni, float *devData)
+void algoritam(thrust::device_vector veze, thrust::device_vector ptr, thrust::device_vector *izbaceni, float *devData)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if(index < ptr.size() && izbaceni[index] != -1)
@@ -135,7 +135,7 @@ int main(int argc, const char* argv[])
   }
   cout<<endl;*/
 
-  algoritam<<<numElements/32,32>>>(indElements, ptrVector, devData);
+  algoritam<<<numElements/32,32>>>(indElements, ptrVector, &izbaceni devData);
   free(hostData);
   
 }
