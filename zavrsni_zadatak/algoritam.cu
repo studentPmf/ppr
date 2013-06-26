@@ -29,7 +29,7 @@ int main(int argc, const char* argv[])
      Sve se sprema u host_vektor
      Ime datoteke se cita s kom. linije
   */
-  thrust::host_vector<thrust::host_vector<int> > indElements; 
+  //thrust::host_vector<thrust::host_vector<int> > indElements; 
   string fileName = argv[1];
   ifstream myFile(argv[1]);
   
@@ -44,7 +44,7 @@ int main(int argc, const char* argv[])
       myFile >> v;
       if( v == 0)
       {
-        indElements.push_back(pom);
+        //indElements.push_back(pom);
         pom.clear();
       }
       else
