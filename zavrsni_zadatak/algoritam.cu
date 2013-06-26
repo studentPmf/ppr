@@ -26,12 +26,12 @@ int main(int argc, const char* argv[])
   }
 
   /* Citanje iz datoteke
-     Sve se sprema u host_vektor
+     Sve se sprema u vektor
      Ime datoteke se cita s kom. linije
   */
-  //thrust::host_vector<thrust::host_vector<int> > indElements; 
+  thrust::host_vector<int> indElements // vektor veza za sve vrhove, format v1v20v1v3v40...
   string fileName = argv[1];
-  ifstream myFile(argv[1]);
+  ifstream myFile (string);
   
   if(myFile.is_open())
   {
@@ -40,15 +40,8 @@ int main(int argc, const char* argv[])
     while(myFile.good())
     {
       int v;
-      thrust::host_vector<int> pom;
       myFile >> v;
-      if( v == 0)
-      {
-        //indElements.push_back(pom);
-        pom.clear();
-      }
-      else
-        pom.push_back(v);
+      indElements.push_back(v);
     }
   }
   else
@@ -60,5 +53,5 @@ int main(int argc, const char* argv[])
   //********************************************//
 
 
- return EXIT_SUCCESS;
+
 }
