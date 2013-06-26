@@ -1,7 +1,9 @@
 #include<iostream>
+#include<stdio.h>
 #include<cstdlib>
 #include<string>
 #include<cuda_runtime.h>
+#include<curand.h>
 #include<cublas_v2.h>
 #include<fstream>
 #include<time.h>
@@ -10,10 +12,12 @@
 #include <thrust/device_vector.h>
 using namespace std;
 
-__global__ void postavi_tezine(double tezine)
-{
-  
-}
+#define CUDA_CALL(x) do { if((x)!=cudaSuccess) { \
+    printf("Error at %s:%d\n",__FILE__,__LINE__);\
+    return EXIT_FAILURE;}} while(0)
+#define CURAND_CALL(x) do { if((x)!=CURAND_STATUS_SUCCESS) { \
+    printf("Error at %s:%d\n",__FILE__,__LINE__);\
+    return EXIT_FAILURE;}} while(0)
 
 
 int main(int argc, const char* argv[])
@@ -31,16 +35,25 @@ int main(int argc, const char* argv[])
   */
   int numElements;
   thrust::host_vector<int> indElements; // vektor veza za sve vrhove, format v1v20v1v3v40...
+  thrust::host_vector<int> ptrVector;
   ifstream myFile (argv[1]);
   
   if(myFile.is_open())
   {
+    int cnt = 0;
     myFile >> numElements;
+    ptrVector.push_back(cnt);
     while(myFile.good())
     {
       int v;
       myFile >> v;
-      indElements.push_back(v);
+      if(v == 0)
+        ptrVector.push_back(cnt)
+      else
+      {
+        indElements.push_back(v);
+        cnt++;
+      }
     }
   }
   else
@@ -53,7 +66,45 @@ int main(int argc, const char* argv[])
     cout<<indElements[i];
   cout<<endl;*/
   //********************************************//
+  
+  thrust::vector<int> DindElements = indElements; // vektor elemenata
+  thrust::vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
+  
+  size_t n = numElements;
+  size_t i;
+  curandGenerator_t gen;
+  float *devData, *hostData;
 
+  /* Allocate n floats on host */
+  hostData = (float *)calloc(n, sizeof(float));
 
+  /* Allocate n floats on device */
+  CUDA_CALL(cudaMalloc((void **)&devData, n*sizeof(float)));
+
+  /* Create pseudo-random number generator */
+  CURAND_CALL(curandCreateGenerator(&gen, 
+                CURAND_RNG_PSEUDO_DEFAULT));
+
+  /* Set seed */
+  CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, 
+                1234ULL));
+
+  /* Generate n floats on device */
+  CURAND_CALL(curandGenerateUniform(gen, devData, n));
+
+  /* Copy device memory to host */
+  CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
+        cudaMemcpyDeviceToHost));
+
+  /* Show result */
+  for(i = 0; i < n; i++) {
+    printf("%1.4f ", hostData[i]);
+  }
+  cout<<endl;
+
+  /* Cleanup */
+  CURAND_CALL(curandDestroyGenerator(gen));
+  CUDA_CALL(cudaFree(devData));
+  free(hostData);
 
 }
