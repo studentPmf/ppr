@@ -108,10 +108,10 @@ int main(int argc, const char* argv[])
   create_pseud_numbers(hostData, devData, numElements);
   
   /* Show result */
-  /*for( int i = 0; i < numElements; i++) {
+  for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
-  cout<<endl;*/
+  cout<<endl;
   free(hostData);
   
 }
