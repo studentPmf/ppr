@@ -48,7 +48,9 @@ int main(int argc, const char* argv[])
     cerr<<"Pogresno ime datoteke"<<endl;
     return EXIT_FAILURE;
   }
-
+  for(i(0); i < numElements; i++)
+    cout<<indElements[i];
+  cout<<endl;
   //********************************************//
 
 
