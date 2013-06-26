@@ -67,8 +67,8 @@ int main(int argc, const char* argv[])
   cout<<endl;*/
   //********************************************//
   
-  thrust::vector<int> DindElements = indElements; // vektor elemenata
-  thrust::vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
+  thrust::device_vector<int> DindElements = indElements; // vektor elemenata
+  thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
   
   size_t n = numElements;
   size_t i;
