@@ -104,7 +104,7 @@ int main(int argc, const char* argv[])
   
   float * hostData;
     /* Allocate n floats on host */
-  hostData = (float *)calloc(n, sizeof(float));
+  hostData = (float *)calloc(numElements, sizeof(float));
   
   //for(int j = 0; j < 5; j++)
   //{
