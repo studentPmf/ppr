@@ -38,7 +38,7 @@ int create_pseud_numbers(float *hostData, int numElements)
                 1234ULL));
 
   /* Generate n floats on device */
-  CURAND_CALL(curandGeneratePoisson(gen, devData, n));
+  CURAND_CALL(curandGenerateNormal(gen, devData, n));
 
   /* Copy device memory to host */
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
