@@ -6,6 +6,8 @@
 #include<fstream>
 #include<time.h>
 #include<vector>
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
 using namespace std;
 
 __global__ void postavi_tezine(double tezine)
@@ -24,10 +26,10 @@ int main(int argc, const char* argv[])
   }
 
   /* Citanje iz datoteke
-     Sve se sprema u vektor
+     Sve se sprema u host_vektor
      Ime datoteke se cita s kom. linije
   */
-  vector<int> indElements // vektor veza za sve vrhove, format v1v20v1v3v40...
+  thrust::host_vector<thrust::host_vector<int> > indElements 
   string fileName = argv[1];
   ifstream myFile (string);
   
@@ -38,8 +40,15 @@ int main(int argc, const char* argv[])
     while(myFile.good())
     {
       int v;
+      thrust::host_vector<int> pom;
       myFile >> v;
-      indElements.push_back(v);
+      if( v == 0)
+      {
+        indElements.push_back(pom);
+        pom.clear();
+      }
+      else
+        pom.push_back(v);
     }
   }
   else
@@ -51,5 +60,5 @@ int main(int argc, const char* argv[])
   //********************************************//
 
 
-
+ return EXIT_SUCCESS;
 }
