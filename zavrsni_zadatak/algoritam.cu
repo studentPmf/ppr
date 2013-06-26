@@ -105,15 +105,17 @@ int main(int argc, const char* argv[])
   thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
   
   float * hostData;
-
-  create_pseud_numbers(hostData, numElements);
   
+  for(j = 0; j < 5; j++)
+  {
+    create_pseud_numbers(hostData, numElements);
   /* Show result */
   for(i = 0; i < n; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-
- //free(hostData);
+  
+ free(hostData);
+  }
 
 }
