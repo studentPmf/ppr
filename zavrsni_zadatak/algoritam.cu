@@ -48,6 +48,27 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   return EXIT_SUCCESS;
 }
 
+__device__
+void algoritam(thrust::device_vector* veze, thrust::device_vector* ptr, thrust::device_vector izbaceni, float *devData)
+{
+  int index = blockIdx.x * blockDim.x + threadIdx.x;
+  if(index < ptr.size() && izbaceni[index] != -1)
+  {
+    int start, end;
+    int provjera = 1;
+    for(int i = start; i < end; i++)
+    {
+      if(devData[index] > devData[veze[i]])
+        provjera = 0;
+    }
+
+    if(provjera)
+    {
+       for(int i = start; i< end; i++)
+         izbaceni[i] = -1;
+    }
+  }
+}
 
 int main(int argc, const char* argv[])
 {
@@ -98,7 +119,8 @@ int main(int argc, const char* argv[])
   
   thrust::device_vector<int> DindElements = indElements; // vektor elemenata
   thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
-  
+  thrust::device_vector<int> izbaceni;
+  izbaceni.assign(0,numElements);
   float * hostData, *devData;
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
@@ -108,10 +130,12 @@ int main(int argc, const char* argv[])
   create_pseud_numbers(hostData, devData, numElements);
   
   /* Show result */
-  for( int i = 0; i < numElements; i++) {
+  /*for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
-  cout<<endl;
+  cout<<endl;*/
+
+  algoritam<<<numElements/32,32>>>(indElements, ptrVector, devData);
   free(hostData);
   
 }
