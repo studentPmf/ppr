@@ -164,7 +164,7 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMemcpy(Dptr_size, &Hptr_size, sizeof(int),
         cudaMemcpyHostToDevice));
 
-  //algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
+  algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
   int izbaceni[numElements];
   CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int),
         cudaMemcpyDeviceToHost));
