@@ -144,7 +144,7 @@ int main(int argc, const char* argv[])
     cout<<veci[i];
   cout<<endl;
 
-  algoritam<<<1,numElements>>>(DindElements, DptrVector, izbaceni, devData);
+  //algoritam<<<1,numElements>>>(DindElements, DptrVector, izbaceni, devData);
   free(hostData);
   
 }
