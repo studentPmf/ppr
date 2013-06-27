@@ -47,8 +47,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 
   return EXIT_SUCCESS;
 }
-template <typename T>
-__global__ void algoritam(T* veze, T* ptr, T* izbaceni, float *devData)
+__global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if(index < ptr.size() && izbaceni[index] != -1)
