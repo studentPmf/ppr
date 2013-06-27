@@ -43,7 +43,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));
-  CUDA_CALL(cudaFree(devData));
+ // CUDA_CALL(cudaFree(devData));
 
   return EXIT_SUCCESS;
 }
