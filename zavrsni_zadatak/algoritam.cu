@@ -51,8 +51,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int* veze_size, int* ptr_size)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
-  izbaceni[index] = index;
-  /*if(index < *ptr_size && izbaceni[index] != -1)
+  if(index < *ptr_size && izbaceni[index] != -1)
   {
     int start, end;
     int provjera = 1;
@@ -73,7 +72,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
        for(int i = start; i< end; i++)
          izbaceni[veze[i] - 1 ] = -1;
     }
-  }*/
+  }
 }
 
 int main(int argc, const char* argv[])
