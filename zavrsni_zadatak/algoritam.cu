@@ -137,12 +137,12 @@ int main(int argc, const char* argv[])
   create_pseud_numbers(hostData, devData, numElements);
   
   /* Show result */
-  /*for( int i = 0; i < numElements; i++) {
+  for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
-  cout<<endl;*/
+  cout<<endl;
    
-
+  /*
   int *DindElements,*DptrVector, *Dizbaceni;
   CUDA_CALL(cudaMalloc((void **)&DindElements, indElements.size()*sizeof(int)));
   CUDA_CALL(cudaMalloc((void **)&DptrVector, ptrVector.size()*sizeof(int)));
@@ -166,7 +166,7 @@ int main(int argc, const char* argv[])
   int *izbaceni;
   CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int),
         cudaMemcpyDeviceToHost));
-
+  */
   /*for( int k = 0; k < numElements; k++)
     cout<<izbaceni[k];
   cout<<endl;*/
