@@ -29,7 +29,7 @@ bool findZeros(int* polje, int n)
   return false;
 }
 
-int create_pseud_numbers(float *hostData, float *devData, int numElements)
+int create_pseud_numbers(unsigned int *hostData, unsigned int *devData, int numElements)
 {
   size_t n = numElements;
   curandGenerator_t gen;
@@ -47,7 +47,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   CURAND_CALL(curandGenerateUniform(gen, devData, n));
 
   /* Copy device memory to host */
-  CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
+  CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(unsigned int),
         cudaMemcpyDeviceToHost));
 
   /* Cleanup */
@@ -137,13 +137,13 @@ int main(int argc, const char* argv[])
   for(int i(0); i < numElements; i++)
     Hizbaceni[i] = 0;
 
-  float * hostData, *devData;
+  unsigned int * hostData, *devData;
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size();
   int *Dveze_size, *Dptr_size;
     /* Allocate n floats on host */
-  hostData = (float *)calloc(numElements, sizeof(float));
+  hostData = (unsigned int *)calloc(numElements, sizeof(unsigned int));
     /* Allocate n floats on device */
-  CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
+  CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(unsigned int)));
   
   create_pseud_numbers(hostData, devData, numElements);
   
