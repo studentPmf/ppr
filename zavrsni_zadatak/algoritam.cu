@@ -103,7 +103,8 @@ int main(int argc, const char* argv[])
       int v;
       myFile >> v;
       if(v == 0)
-        ptrVector.push_back(cnt);
+      { cout<<"usao"<<endl;
+        ptrVector.push_back(cnt);}
       else
       {
         indElements.push_back(v);
