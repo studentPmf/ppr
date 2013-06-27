@@ -122,11 +122,13 @@ int main(int argc, const char* argv[])
   cout<<endl;*/
   //********************************************//
   
-  int DindElements[indElements.size()]; // vektor elemenata
-  int DptrVector[ptrVector.size()];     // vektor pointera na pocetak za svaki vrh
-  int izbaceni[numElements];
-  memset(izbaceni,0,numElements);
+  int* HindElements = &indElements[0]; // vektor elemenata
+  int* HptrVector = &ptrVector[0];     // vektor pointera na pocetak za svaki vrh
+  int Hizbaceni;
+  memset(Hizbaceni,0,numElements);
   float * hostData, *devData;
+  int Hveze_size = indElements.size(), Hptr_size = ptrVector.size();
+  int *Dveze_size, *Dptr_size;
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
     /* Allocate n floats on device */
@@ -139,12 +141,28 @@ int main(int argc, const char* argv[])
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;*/
-  int * veci = &indElements[0];
-  for(int i(0); i < indElements.size(); i++)
-    cout<<veci[i];
-  cout<<endl;
+   
 
-  //algoritam<<<1,numElements>>>(DindElements, DptrVector, izbaceni, devData);
+  int *DindElements,*DptrVector, *Dizbaceni;
+  CUDA_CALL(cudaMalloc((void **)&DindElements, indElements.size()*sizeof(int)));
+  CUDA_CALL(cudaMalloc((void **)&DptrVector, ptrVector.size()*sizeof(int)));
+  CUDA_CALL(cudaMalloc((void **)&Dizbaceni, numElements*sizeof(int)));
+  CUDA_CALL(cudaMalloc((void**)&Dveze_size, sizeof(int)));
+  CUDA_CALL(cudaMalloc((void**)&Dptr_size, sizeof(int)));
+
+
+  CUDA_CALL(cudaMemcpy(DindElements, HindElements, indElements.size() * sizeof(int),
+        cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(DptrVector, HptrVector, ptrVector.size() * sizeof(int),
+        cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(Dizbaceni, Hizbaceni, numElements * sizeof(int),
+        cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(Dveze_size, Hveze_size, sizeof(int),
+        cudaMemcpyHostToDevice));
+  CUDA_CALL(cudaMemcpy(Dptr_size, Hptr_size, sizeof(int),
+        cudaMemcpyHostToDevice));
+
+  algoritam<<<1,numElements>>>(DindElements, DptrVector, izbaceni, devData, Dveze_size, Dptr_size);
   free(hostData);
   
 }
