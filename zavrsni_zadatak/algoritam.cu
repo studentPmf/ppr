@@ -167,7 +167,7 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMemcpy(&Hizbaceni, Dizbaceni, numElements * sizeof(int),
         cudaMemcpyDeviceToHost));
 
-  for( k = 0; k < numElements; k++)
+  for( int k = 0; k < numElements; k++)
     cout<<Hizbaceni[k];
   cout<<endl;
   free(hostData);
