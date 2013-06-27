@@ -53,13 +53,9 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if(index < *ptr_size && izbaceni[index] != -1)
   {
-    int start, end;
     int provjera = 1;
-    start = ptr[index];
-    if( index + 1 >= *ptr_size)
-      end = *veze_size;
-    else
-      end = ptr[index + 1];
+    int start = ptr[index];
+    int end = ptr[index + 1];
     for(int i = start; i < end; i++)
     {
       if(devData[index] > devData[veze[i] - 1])
