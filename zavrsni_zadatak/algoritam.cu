@@ -151,9 +151,9 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMalloc((void**)&Dptr_size, sizeof(int)));
 
 
-  /*CUDA_CALL(cudaMemcpy(DindElements, HindElements, indElements.size() * sizeof(int),
+  CUDA_CALL(cudaMemcpy(DindElements, HindElements, indElements.size() * sizeof(int),
         cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(DptrVector, HptrVector, ptrVector.size() * sizeof(int),
+  /*CUDA_CALL(cudaMemcpy(DptrVector, HptrVector, ptrVector.size() * sizeof(int),
         cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(Dizbaceni, &Hizbaceni, numElements * sizeof(int),
         cudaMemcpyHostToDevice));
