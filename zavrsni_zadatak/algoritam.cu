@@ -117,9 +117,9 @@ int main(int argc, const char* argv[])
     return EXIT_FAILURE;
   }
   
-  /*for(int i(0); i < indElements.size(); i++)
+  for(int i(0); i < indElements.size(); i++)
     cout<<indElements[i];
-  cout<<endl;*/
+  cout<<endl;
   //********************************************//
   
   int* HindElements = &indElements[0]; // vektor elemenata
