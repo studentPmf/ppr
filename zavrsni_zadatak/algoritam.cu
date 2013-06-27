@@ -137,7 +137,7 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
   for(int j = 0; j < 5; j++)
-  {  create_pseud_numbers(hostData, devData, numElements);
+  {  create_pseud_numbers(hostData, devData, numElements + 3);
   
   /* Show result */
   for( int i = 0; i < numElements; i++) {
