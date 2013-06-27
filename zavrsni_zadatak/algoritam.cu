@@ -89,8 +89,8 @@ int main(int argc, const char* argv[])
      Ime datoteke se cita s kom. linije
   */
   int numElements;
-  thrust::host_vector<int> indElements; // vektor veza za sve vrhove, format v1v20v1v3v40...
-  thrust::host_vector<int> ptrVector;
+  vector<int> indElements; // vektor veza za sve vrhove, format v1v20v1v3v40...
+  vector<int> ptrVector;
   ifstream myFile (argv[1]);
   
   if(myFile.is_open())
