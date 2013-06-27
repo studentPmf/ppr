@@ -122,10 +122,10 @@ int main(int argc, const char* argv[])
   cout<<endl;*/
   //********************************************//
   
-  thrust::device_vector<int> DindElements = indElements; // vektor elemenata
-  thrust::device_vector<int> DptrVector = ptrVector;     // vektor pointera na pocetak za svaki vrh
-  thrust::device_vector<int> izbaceni;
-  izbaceni.assign(0,numElements);
+  int DindElements[indElements.size()]; // vektor elemenata
+  int DptrVector[ptrVector.size()];     // vektor pointera na pocetak za svaki vrh
+  int izbaceni[numElements];
+  memset(izbaceni,0,numElements);
   float * hostData, *devData;
     /* Allocate n floats on host */
   hostData = (float *)calloc(numElements, sizeof(float));
@@ -139,6 +139,10 @@ int main(int argc, const char* argv[])
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;*/
+  int * veci = &indElements[0];
+  for(int i(0); i < indElements.size(); i++)
+    cout<<veci[i];
+  cout<<endl;
 
   algoritam<<<1,numElements>>>(DindElements, DptrVector, izbaceni, devData);
   free(hostData);
