@@ -93,7 +93,7 @@ int main(int argc, const char* argv[])
   vector<int> ptrVector;
   ifstream myFile (argv[1]);
   
-  if(feof(myFile))
+  if(myFile.is_open())
   {
     int cnt = 0;
     myFile >> numElements;
