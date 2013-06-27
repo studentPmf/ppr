@@ -103,7 +103,7 @@ int main(int argc, const char* argv[])
       int v;
       myFile >> v;
       if(v == 0)
-      { cout<<"usao"<<endl;
+      { cout<<cnt<<endl;
         ptrVector.push_back(cnt);}
       else
       {
