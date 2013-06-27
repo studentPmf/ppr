@@ -43,7 +43,6 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));
- // CUDA_CALL(cudaFree(devData));
 
   return EXIT_SUCCESS;
 }
@@ -136,15 +135,16 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
     /* Allocate n floats on device */
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
-
-  create_pseud_numbers(hostData, devData, numElements);
+  
+  for(int j = 0; j < 5; j++)
+  {  create_pseud_numbers(hostData, devData, numElements);
   
   /* Show result */
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-   
+  }
   
   int *DindElements,*DptrVector, *Dizbaceni;
   CUDA_CALL(cudaMalloc((void **)&DindElements, indElements.size()*sizeof(int)));
@@ -173,6 +173,12 @@ int main(int argc, const char* argv[])
   for( int k = 0; k < numElements; k++)
     cout<<izbaceni[k];
   cout<<endl;
+
   free(hostData);
-  
+  CUDA_CALL(cudaFree(devData));
+  CUDA_CALL(cudaFree(DindElements));
+  CUDA_CALL(cudaFree(DptrVector));
+  CUDA_CALL(cudaFree(Dizbaceni));
+  CUDA_CALL(cudaFree(Dveze_size));
+  CUDA_CALL(cudaFree(Dptr_size));
 }
