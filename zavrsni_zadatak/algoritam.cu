@@ -124,8 +124,10 @@ int main(int argc, const char* argv[])
   
   int* HindElements = &indElements[0]; // vektor elemenata
   int* HptrVector = &ptrVector[0];     // vektor pointera na pocetak za svaki vrh
-  int Hizbaceni[numElements] = {0};
-  //memset(&Hizbaceni,0,numElements);
+  int Hizbaceni[numElements];
+  for(int i(0); i < numElements; i++)
+    Hizbaceni[i] = 0;
+
   float * hostData, *devData;
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size();
   int *Dveze_size, *Dptr_size;
