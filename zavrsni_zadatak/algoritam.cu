@@ -69,6 +69,7 @@ void algoritam(thrust::device_vector<int> veze, thrust::device_vector<int> ptr, 
 
     if(provjera)
     {
+       izbaceni[index] = 1;
        for(int i = start; i< end; i++)
          izbaceni[i] = -1;
     }
