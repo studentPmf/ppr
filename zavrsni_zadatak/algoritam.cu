@@ -20,6 +20,15 @@ using namespace std;
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
 
+bool findZeros(int* polje, int n)
+{
+  for(int i = 0; i < n; i++)
+    if(polje[i] == 0)
+      return true;
+
+  return false;
+}
+
 int create_pseud_numbers(float *hostData, float *devData, int numElements)
 {
   size_t n = numElements;
@@ -57,7 +66,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
     int end = ptr[index + 1];
     for(int i = start; i < end; i++)
     {
-      if(devData[index] > devData[veze[i] - 1])
+      if(devData[index] > devData[veze[i] - 1] && izbaci[veze[i] - 1] != -1)
         provjera = 0;
     }
 
@@ -136,15 +145,13 @@ int main(int argc, const char* argv[])
     /* Allocate n floats on device */
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
-  for(int j = 0; j < 5; j++)
-  {  create_pseud_numbers(hostData, devData, numElements + 3);
+  create_pseud_numbers(hostData, devData, numElements);
   
   /* Show result */
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-  }
   
   int *DindElements,*DptrVector, *Dizbaceni;
   CUDA_CALL(cudaMalloc((void **)&DindElements, indElements.size()*sizeof(int)));
@@ -164,12 +171,12 @@ int main(int argc, const char* argv[])
         cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(Dptr_size, &Hptr_size, sizeof(int),
         cudaMemcpyHostToDevice));
-
-  algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
+  do{
+    algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
   int izbaceni[numElements];
   CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int),
         cudaMemcpyDeviceToHost));
-  
+  }while(findZeros(izbaceni, numElements));
   for( int k = 0; k < numElements; k++)
     cout<<izbaceni[k];
   cout<<endl;
