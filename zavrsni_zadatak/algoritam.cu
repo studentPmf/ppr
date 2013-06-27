@@ -102,7 +102,7 @@ int main(int argc, const char* argv[])
     {
       int v;
       myFile >> v;
-      if(myFile.good()) break;
+      if(!myFile.good()) break;
       if(v == 0)
       { cout<<cnt<<endl;
         ptrVector.push_back(cnt);}
