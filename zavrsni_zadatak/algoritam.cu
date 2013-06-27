@@ -142,7 +142,7 @@ int main(int argc, const char* argv[])
   }
   cout<<endl;
    
-  /*
+  
   int *DindElements,*DptrVector, *Dizbaceni;
   CUDA_CALL(cudaMalloc((void **)&DindElements, indElements.size()*sizeof(int)));
   CUDA_CALL(cudaMalloc((void **)&DptrVector, ptrVector.size()*sizeof(int)));
@@ -151,7 +151,7 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMalloc((void**)&Dptr_size, sizeof(int)));
 
 
-  CUDA_CALL(cudaMemcpy(DindElements, HindElements, indElements.size() * sizeof(int),
+  /*CUDA_CALL(cudaMemcpy(DindElements, HindElements, indElements.size() * sizeof(int),
         cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(DptrVector, HptrVector, ptrVector.size() * sizeof(int),
         cudaMemcpyHostToDevice));
