@@ -47,7 +47,8 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 
   return EXIT_SUCCESS;
 }
-__global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData)
+
+__global__ void algoritam(thrust::device_vector<int> veze, thrust::device_vector<int> ptr, thrust::device_vector<int> izbaceni, float *devData)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if(index < ptr.size() && izbaceni[index] != -1)
@@ -138,10 +139,8 @@ int main(int argc, const char* argv[])
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;*/
-  int* veze = thrust::raw_pointer_cast(indElements.data());
-  int* ptr = thrust::raw_pointer_cast(ptrVector.data());
-  int* izb = thrust::raw_pointer_cast(izbaceni.data());
-  algoritam<<<1,numElements>>>(veze, ptr, izb, devData);
+
+  algoritam<<<1,numElements>>>(DindElements, DptrVector, izbaceni, devData);
   free(hostData);
   
 }
