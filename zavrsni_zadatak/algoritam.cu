@@ -153,11 +153,11 @@ int main(int argc, const char* argv[])
 
   CUDA_CALL(cudaMemcpy(DindElements, HindElements, indElements.size() * sizeof(int),
         cudaMemcpyHostToDevice));
-  /*CUDA_CALL(cudaMemcpy(DptrVector, HptrVector, ptrVector.size() * sizeof(int),
+  CUDA_CALL(cudaMemcpy(DptrVector, HptrVector, ptrVector.size() * sizeof(int),
         cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(Dizbaceni, &Hizbaceni, numElements * sizeof(int),
         cudaMemcpyHostToDevice));
-  CUDA_CALL(cudaMemcpy(Dveze_size, &Hveze_size, sizeof(int),
+  /*CUDA_CALL(cudaMemcpy(Dveze_size, &Hveze_size, sizeof(int),
         cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(Dptr_size, &Hptr_size, sizeof(int),
         cudaMemcpyHostToDevice));
