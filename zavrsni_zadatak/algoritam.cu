@@ -140,7 +140,7 @@ int main(int argc, const char* argv[])
   }
   cout<<endl;*/
 
-  algoritam<<<numElements/32 + 1,32>>>(indElements, ptrVector, izbaceni, devData);
+  algoritam<<<1,numElements>>>(indElements, ptrVector, izbaceni, devData);
   free(hostData);
   
 }
