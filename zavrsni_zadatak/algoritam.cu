@@ -56,6 +56,11 @@ void algoritam(thrust::device_vector<int> veze, thrust::device_vector<int> ptr, 
   {
     int start, end;
     int provjera = 1;
+    start = ptr[index];
+    if( index + 1 >= ptr.size())
+      end = veze.size();
+    else
+      end = ptr[index + 1];
     for(int i = start; i < end; i++)
     {
       if(devData[index] > devData[veze[i]])
