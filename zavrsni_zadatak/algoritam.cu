@@ -135,7 +135,7 @@ int main(int argc, const char* argv[])
   }
   cout<<endl;*/
 
-  algoritam<<<numElements/32,32>>>(indElements, ptrVector, &izbaceni devData);
+  algoritam<<<numElements/32,32>>>(indElements, ptrVector, &izbaceni, devData);
   free(hostData);
   
 }
