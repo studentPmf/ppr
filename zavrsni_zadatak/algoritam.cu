@@ -48,7 +48,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   return EXIT_SUCCESS;
 }
 
-__global__ void algoritam(thrust::device_vector<int> veze, thrust::device_vector<int> ptr, thrust::device_vector<int> izbaceni, float *devData)
+__global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int veze_size, int ptr_size)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if(index < ptr.size() && izbaceni[index] != -1)
@@ -56,8 +56,8 @@ __global__ void algoritam(thrust::device_vector<int> veze, thrust::device_vector
     int start, end;
     int provjera = 1;
     start = ptr[index];
-    if( index + 1 >= ptr.size())
-      end = veze.size();
+    if( index + 1 >= ptr_size)
+      end = veze_size;
     else
       end = ptr[index + 1];
     for(int i = start; i < end; i++)
