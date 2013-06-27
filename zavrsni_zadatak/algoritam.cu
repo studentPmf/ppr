@@ -163,12 +163,12 @@ int main(int argc, const char* argv[])
         cudaMemcpyHostToDevice));
 
   algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
-  
-  CUDA_CALL(cudaMemcpy(&Hizbaceni, Dizbaceni, numElements * sizeof(int),
+  int *izbaceni;
+  CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int),
         cudaMemcpyDeviceToHost));
 
   for( int k = 0; k < numElements; k++)
-    cout<<Hizbaceni[k];
+    cout<<izbaceni[k];
   cout<<endl;
   free(hostData);
   
