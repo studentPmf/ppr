@@ -168,7 +168,7 @@ int main(int argc, const char* argv[])
         cudaMemcpyDeviceToHost));
   
   for( int k = 0; k < numElements; k++)
-    cout<<Hzbaceni[k];
+    cout<<Hizbaceni[k];
   cout<<endl;
   free(hostData);
   
