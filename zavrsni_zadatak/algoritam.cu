@@ -49,7 +49,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 }
 
 __device__
-void algoritam(thrust::device_vector veze, thrust::device_vector ptr, thrust::device_vector *izbaceni, float *devData)
+void algoritam(thrust::device_vector<int> veze, thrust::device_vector<int> ptr, thrust::device_vector<int> *izbaceni, float *devData)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if(index < ptr.size() && izbaceni[index] != -1)
