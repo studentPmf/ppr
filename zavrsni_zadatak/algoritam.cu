@@ -66,7 +66,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
     int end = ptr[index + 1];
     for(int i = start; i < end; i++)
     {
-      if(devData[index] > devData[veze[i] - 1] && izbaci[veze[i] - 1] != -1)
+      if(devData[index] > devData[veze[i] - 1] && izbaceni[veze[i] - 1] != -1)
         provjera = 0;
     }
 
@@ -171,9 +171,11 @@ int main(int argc, const char* argv[])
         cudaMemcpyHostToDevice));
   CUDA_CALL(cudaMemcpy(Dptr_size, &Hptr_size, sizeof(int),
         cudaMemcpyHostToDevice));
+  
+  int izbaceni[numElements];
+
   do{
     algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
-  int izbaceni[numElements];
   CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int),
         cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
