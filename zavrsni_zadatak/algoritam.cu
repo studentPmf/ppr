@@ -79,7 +79,9 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int* veze_size, int* ptr_size)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
-  // Ako ti je index u rangu i ako nisi vec izbacen 
+  izbaceni[index] = index;
+  // Ako ti je index u rangu i ako nisi vec izbacen
+  /*
   if(index < *ptr_size && izbaceni[index] != -1)
   {
     int provjera = 1;
@@ -99,7 +101,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
        for(int i = start; i< end; i++)
          izbaceni[veze[i] - 1 ] = -1; // sve susjede izbaci kao mogucnost
     }
-  }
+  }*/
 }
 
 
