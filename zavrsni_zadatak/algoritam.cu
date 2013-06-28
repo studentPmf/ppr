@@ -205,10 +205,15 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMemcpy(Dptr_size, &Hptr_size, sizeof(int),
         cudaMemcpyHostToDevice));
  
+
+  // CUDA grid
+  dim3 threadsPerBlock(16, 16);
+  dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
+
   // Algoritam
   do{
     
-    algoritam<<<numElements/32 + 1,32>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
+    algoritam<<<numBlocks,threadsPerBlocks>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
   }while(findZeros(izbaceni, numElements));
