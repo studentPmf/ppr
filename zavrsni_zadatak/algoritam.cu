@@ -218,7 +218,7 @@ int main(int argc, const char* argv[])
   for( int k = 0; k < numElements; k++)
     cout<<k+1<<" : "<<izbaceni[k]<<endl;
   i--;
-  }while(i)
+  }while(i);
   // Oslobadanje memorije na hostu i divace-u 
   free(hostData);
   CUDA_CALL(cudaFree(devData));
