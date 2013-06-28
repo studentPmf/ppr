@@ -80,8 +80,9 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   //izbaceni[index] = index; //provjera indekasa
+
   // Ako ti je index u rangu i ako nisi vec izbacen
-  if(index < *ptr_size && izbaceni[index] != -1)
+  if(index < *ptr_size - 1 && izbaceni[index] != -1)
   {
     int provjera = 1;
     int start = ptr[index]; //pocetak u vezama
