@@ -206,7 +206,7 @@ int main(int argc, const char* argv[])
         cudaMemcpyHostToDevice));
  
   // Algoritam
-  int i = 5;
+  int i = 7;
   do{
     
     algoritam<<<1,numElements>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
