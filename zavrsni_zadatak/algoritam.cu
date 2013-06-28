@@ -78,9 +78,8 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 
 __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int* veze_size, int* ptr_size)
 {
-  int index = blockIdx.x * blockDim.x + threadIdx.x + blockIdx.y * blockDim.y + threadIdx.y;
+  int index = blockIdx.x * blockDim.x + threadIdx.x;
   //izbaceni[index] = index; //provjera indekasa
-
   // Ako ti je index u rangu i ako nisi vec izbacen
   if(index < *ptr_size && izbaceni[index] != -1)
   {
@@ -207,13 +206,13 @@ int main(int argc, const char* argv[])
  
 
   // CUDA grid
-  dim3 threadsPerBlock(16, 16);
-  dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
+  //dim3 threadsPerBlock(16, 16);
+  //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
 
   // Algoritam
   do{
     
-    algoritam<<<numBlocks,threadsPerBlock>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
+    algoritam<<<numElements/256,256>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
   }while(findZeros(izbaceni, numElements));
