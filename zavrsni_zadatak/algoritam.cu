@@ -207,8 +207,7 @@ int main(int argc, const char* argv[])
   do{
     
     algoritam<<<numElements/32 + 1,32>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
-    CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int),
-              cudaMemcpyDeviceToHost));
+    CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
   }while(findZeros(izbaceni, numElements));
 
