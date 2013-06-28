@@ -144,7 +144,7 @@ int main(int argc, const char* argv[])
   }
 
   /* Provjera da li je sve procitano korektno*/
-  /*
+  
   for(int i(0); i < ptrVector.size(); i++)
     cout<<ptrVector[i];
   cout<<endl;
@@ -152,7 +152,7 @@ int main(int argc, const char* argv[])
   for(int i(0); i < indElements.size(); i++)
     cout<<indElements[i];
   cout<<endl;
-  */
+  
   
   /* Priprema za device*/
   /*****************************************************************/
@@ -173,12 +173,12 @@ int main(int argc, const char* argv[])
   create_pseud_numbers(hostData, devData, numElements);
   
   /* Prikaz rezultata */
-  /*
+  
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-  */
+  
   // Alokacija memorija za glavni program (algoritam)
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size(); // pomocne varijable  
   int *Dveze_size, *Dptr_size;
