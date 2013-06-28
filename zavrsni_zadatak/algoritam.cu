@@ -144,7 +144,7 @@ int main(int argc, const char* argv[])
   }
 
   /* Provjera da li je sve procitano korektno*/
-  
+  cout<<numElements<<endl;
   for(int i(0); i < ptrVector.size(); i++)
     cout<<ptrVector[i]<<" ";
   cout<<endl;
