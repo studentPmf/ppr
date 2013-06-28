@@ -204,12 +204,12 @@ int main(int argc, const char* argv[])
         cudaMemcpyHostToDevice));
  
   // Algoritam
-  do{
+  //do{
     
-    algoritam<<<numElements/32 + 1,32>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
-    //CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
+    //algoritam<<<numElements/32 + 1,32>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
+    CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
-  }while(findZeros(izbaceni, numElements));
+  //}while(findZeros(izbaceni, numElements));
 
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
