@@ -146,11 +146,11 @@ int main(int argc, const char* argv[])
   /* Provjera da li je sve procitano korektno*/
   
   for(int i(0); i < ptrVector.size(); i++)
-    cout<<ptrVector[i];
+    cout<<ptrVector[i]<<" ";
   cout<<endl;
 
   for(int i(0); i < indElements.size(); i++)
-    cout<<indElements[i];
+    cout<<indElements[i]<<" ";
   cout<<endl;
   
   
