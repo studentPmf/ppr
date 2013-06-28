@@ -213,8 +213,7 @@ int main(int argc, const char* argv[])
 
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
-    cout<<izbaceni[k];
-  cout<<endl;
+    cout<<k+1<<" : "<<izbaceni[k]<<endl;
 
   // Oslobadanje memorije na hostu i divace-u 
   free(hostData);
