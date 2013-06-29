@@ -69,7 +69,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
   CUDA_CALL(cudaMemcpy(nn, &n, sizeof(int),
         cudaMemcpyHostToDevice));
-  bestRand(devData,nn);
+  bestRand<<<1,1>>>(devData,nn);
   
   /* Copy device memory to host */
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
