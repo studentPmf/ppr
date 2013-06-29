@@ -96,8 +96,8 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int c =(int)clock()%(index*100000);
   index = (index + c)%*ptr_size;
-  //izbaceni[index] = (int)clock(); //provjera indekasa
-  
+  izbaceni[index] = c; //provjera indekasa
+  /*
   // Ako ti je index u rangu i ako nisi vec izbacen
   if(index < *ptr_size - 1 && izbaceni[index] != -1)
   {
@@ -118,7 +118,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
        for(int i = start; i< end; i++)
          izbaceni[veze[i] - 1 ] = -1; // sve susjede izbaci kao mogucnost
     }
-  }
+  }*/
 }
 
 
