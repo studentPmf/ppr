@@ -54,7 +54,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 {
   size_t n = numElements;
   curandGenerator_t gen;
-
+  int *nn;
   /* Create pseudo-random number generator */
   CURAND_CALL(curandCreateGenerator(&gen, 
                 CURAND_RNG_PSEUDO_DEFAULT));
@@ -69,6 +69,10 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   /* Copy device memory to host */
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
         cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMalloc((void**)&Dnn, sizeof(int)));
+  CUDA_CALL(cudaMemcpy(&n, nn, n * sizeof(float),
+        cudaMemcpyDeviceToHost));
+  bestRand(devData,nn);
 
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));
