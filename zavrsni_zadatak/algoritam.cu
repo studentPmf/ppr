@@ -105,7 +105,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
     for(int i = start; i < end; i++)
     {
       // Ako je netko dobio vecu tezinu i ako taj nije izbacen kao mogucnost
-      if(devData[index] >= devData[veze[i] - 1] && izbaceni[veze[i] - 1] != -1)
+      if(devData[[index + 1]%ptr_size] >= devData[veze[i] - 1] && izbaceni[veze[i] - 1] != -1)
         provjera = 0;
     }
 
