@@ -39,10 +39,11 @@ bool findZeros(int* polje, int n)
   return false;
 }
 
-__host__ void bestRand(float *devData, int* n)
+__global__ void bestRand(float *devData, int* n)
 {
-  for(int i = 0; i < *n; i++)
-    devData[i] = devData[i]*((int)clock()%10);
+  int index = blockIdx.x * blockDim.x + threadIdx.x;
+  if(index < *n)
+    devData[index] = devData[index]*((int)clock()%10);
 }
 
 /**
@@ -69,7 +70,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
   CUDA_CALL(cudaMemcpy(nn, &n, sizeof(int),
         cudaMemcpyHostToDevice));
-  bestRand<<<1,1>>>(devData,nn);
+  bestRand<<<n/128 + 1,128>>>(devData,nn);
   
   /* Copy device memory to host */
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
