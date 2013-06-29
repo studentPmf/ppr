@@ -42,7 +42,7 @@ bool findZeros(int* polje, int n)
 __device__ void bestRand(float *devData, int n)
 {
   for(int i = 0; i < n; i++)
-    devData[i] = (devData[i]*(int)clock())%10;
+    devData[i] = devData[i]*((int)clock()%10);
 }
 
 /**
