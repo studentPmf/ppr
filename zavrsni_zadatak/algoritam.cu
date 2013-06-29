@@ -39,6 +39,9 @@ bool findZeros(int* polje, int n)
   return false;
 }
 
+/**
+  * Umnozak pseudo i vrijeme
+  */
 __global__ void bestRand(float *devData, int* n)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -67,11 +70,11 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   /* Generate n floats on device */
   CURAND_CALL(curandGenerateUniform(gen, devData, n));
 
-  CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
+  /*CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
   CUDA_CALL(cudaMemcpy(nn, &n, sizeof(int),
         cudaMemcpyHostToDevice));
   bestRand<<<n/128 + 1,128>>>(devData,nn);
-  
+  */
   /* Copy device memory to host */
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
         cudaMemcpyDeviceToHost));
