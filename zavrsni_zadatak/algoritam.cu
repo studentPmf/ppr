@@ -58,7 +58,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 {
   size_t n = numElements;
   curandGenerator_t gen;
-  int *nn;
+  //int *nn;
   /* Create pseudo-random number generator */
   CURAND_CALL(curandCreateGenerator(&gen, 
                 CURAND_RNG_PSEUDO_DEFAULT));
