@@ -41,7 +41,7 @@ bool findZeros(int* polje, int n)
 
 __host__ void bestRand(float *devData, int* n)
 {
-  for(int i = 0; i < n; i++)
+  for(int i = 0; i < *n; i++)
     devData[i] = devData[i]*((int)clock()%10);
 }
 
@@ -72,7 +72,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
   CUDA_CALL(cudaMemcpy(&n, nn, sizeof(int),
         cudaMemcpyDeviceToHost));
-  bestRand(devData,nn);
+  //bestRand(devData,nn);
 
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));
