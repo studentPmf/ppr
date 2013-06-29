@@ -97,7 +97,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
   //int c =(int)clock()%(index*100000000);
   //index = (index + c)%*ptr_size;
   //izbaceni[index] = c; //provjera indekasa
-  /*
+  
   // Ako ti je index u rangu i ako nisi vec izbacen
   if(index < *ptr_size - 1 && izbaceni[index] != -1)
   {
@@ -118,7 +118,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
        for(int i = start; i< end; i++)
          izbaceni[veze[i] - 1 ] = -1; // sve susjede izbaci kao mogucnost
     }
-  }*/
+  }
 }
 
 
@@ -228,12 +228,12 @@ int main(int argc, const char* argv[])
   //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
 
   // Algoritam
-  //do{
+  do{
     
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
-  //}while(findZeros(izbaceni, numElements));
+  }while(findZeros(izbaceni, numElements));
 
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
