@@ -94,6 +94,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int* veze_size, int* ptr_size)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
+  int k = time(0);
   //izbaceni[index] = index; //provjera indekasa
 
   // Ako ti je index u rangu i ako nisi vec izbacen
@@ -105,7 +106,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
     for(int i = start; i < end; i++)
     {
       // Ako je netko dobio vecu tezinu i ako taj nije izbacen kao mogucnost
-      if(devData[index + 1] >= devData[veze[i] - 1] && izbaceni[veze[i] - 1] != -1)
+      if(devData[index] >= devData[veze[i] - 1] && izbaceni[veze[i] - 1] != -1)
         provjera = 0;
     }
 
