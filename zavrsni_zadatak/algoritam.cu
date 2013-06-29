@@ -228,12 +228,12 @@ int main(int argc, const char* argv[])
   //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
 
   // Algoritam
-  //do{
+  do{
     
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
-  //}while(findZeros(izbaceni, numElements));
+  }while(findZeros(izbaceni, numElements));
 
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
