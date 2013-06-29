@@ -94,7 +94,8 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int* veze_size, int* ptr_size)
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
-  int k = time(0);
+  int c =(int)clock()%10;
+  index = (index + c)%ptr_size;
   //izbaceni[index] = index; //provjera indekasa
 
   // Ako ti je index u rangu i ako nisi vec izbacen
