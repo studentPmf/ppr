@@ -15,7 +15,7 @@ u grafu korištenjem paralelnog algoritma koji koristi slučajne brojeve.
 #include<vector>
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
-
+#include <time.h>
 using namespace std;
 
 #define CUDA_CALL(x) do { if((x)!=cudaSuccess) { \
@@ -37,6 +37,12 @@ bool findZeros(int* polje, int n)
       return true;
 
   return false;
+}
+
+__device__ void bestRand(float *devData, int n)
+{
+  for(int i = 0; i < n; i++)
+    devData[i] = (devData[i]*(int)clock())%10;
 }
 
 /**
