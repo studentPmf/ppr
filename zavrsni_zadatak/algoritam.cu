@@ -66,13 +66,14 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   /* Generate n floats on device */
   CURAND_CALL(curandGenerateUniform(gen, devData, n));
 
+  CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
+  CUDA_CALL(cudaMemcpy(nn, &n, sizeof(int),
+        cudaMemcpyHostToDevice));
+  bestRand(devData,nn);
+  
   /* Copy device memory to host */
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
         cudaMemcpyDeviceToHost));
-  CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
-  CUDA_CALL(cudaMemcpy(&n, nn, sizeof(int),
-        cudaMemcpyDeviceToHost));
-  //bestRand(devData,nn);
 
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));
