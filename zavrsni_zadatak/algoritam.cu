@@ -95,7 +95,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
 {
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   int c =(int)clock()%10;
-  index = (index + c)%ptr_size;
+  index = (int)(index + c)%(int)ptr_size;
   //izbaceni[index] = index; //provjera indekasa
 
   // Ako ti je index u rangu i ako nisi vec izbacen
