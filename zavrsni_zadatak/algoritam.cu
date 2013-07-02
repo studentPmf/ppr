@@ -202,21 +202,16 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
   //create_pseud_numbers(hostData, devData, numElements);
-  moj_generator(hostData, numElements);
-  CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
-             cudaMemcpyHostToDevice));
-  float * host1Data;
-  host1Data = (float *)calloc(numElements, sizeof(float));
-  CUDA_CALL(cudaMemcpy(host1Data, devData, numElements * sizeof(float),
-             cudaMemcpyDeviceToHost));
+  //moj_generator(hostData, numElements);
+  //CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float), cudaMemcpyHostToDevice));
 
   /* Prikaz rezultata */
-  
+  /*
   for( int i = 0; i < numElements; i++) {
-    printf("%1.4f ", host1Data[i]);
+    printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-  
+  */
   // Alokacija memorija za glavni program (algoritam)
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size(); // pomocne varijable  
   int *Dveze_size, *Dptr_size;
@@ -248,6 +243,7 @@ int main(int argc, const char* argv[])
   
   // Algoritam
   do{
+    create_pseud_numbers(hostData, devData, numElements);
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
