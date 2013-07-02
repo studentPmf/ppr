@@ -27,16 +27,17 @@ using namespace std;
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
 
+/**
+  Generator slucajnih brojeva koji koristi mtrand
+  */
 int moj_generator(float* hostData, float* devData, int numElements)
 {
-  generator_realnih_brojeva(hostData,numElements);
+  generator_realnih_brojeva(hostData, numElements);
   
   CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
         cudaMemcpyHostToDevice));
   return EXIT_SUCCESS;
 }
-
-
 
 /**
   * Host funkcija koja provjerava koliko je ostalo 
@@ -240,12 +241,12 @@ int main(int argc, const char* argv[])
   //dim3 threadsPerBlock(16, 16);
   //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
   // Algoritam
-  do{
+  //do{
     
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
 
-  }while(findZeros(izbaceni, numElements));
+   //}while(findZeros(izbaceni, numElements));
 
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
