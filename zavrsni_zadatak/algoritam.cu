@@ -136,7 +136,6 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
   }
 }
 
-
 int main(int argc, const char* argv[])
 {
   // Provjera da li su dobri ulazni parametri
