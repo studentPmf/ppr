@@ -13,9 +13,10 @@ u grafu korištenjem paralelnog algoritma koji koristi slučajne brojeve.
 #include<fstream>
 #include<time.h>
 #include<vector>
-#include <thrust/host_vector.h>
-#include <thrust/device_vector.h>
-#include <time.h>
+#include<thrust/host_vector.h>
+#include<thrust/device_vector.h>
+#include<time.h>
+#include"pseudo_generator/myrand.h"
 using namespace std;
 
 #define CUDA_CALL(x) do { if((x)!=cudaSuccess) { \
@@ -25,6 +26,15 @@ using namespace std;
 #define CURAND_CALL(x) do { if((x)!=CURAND_STATUS_SUCCESS) { \
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
+
+void moj_generator(float hostData, float devData, int numElements)
+{
+  generator_realnih_brojeva(hostData,numElements);
+  CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
+        cudaMemcpyHostToDevice));
+}
+
+
 
 /**
   * Host funkcija koja provjerava koliko je ostalo 
@@ -40,7 +50,7 @@ bool findZeros(int* polje, int n)
 }
 
 /**
-  * Umnozak pseudo i vrijeme
+  * Umnozak pseudo-brojeva i vremena
   */
 __global__ void bestRand(float *devData, int* n)
 {
@@ -189,8 +199,8 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
-  create_pseud_numbers(hostData, devData, numElements);
-  
+  //create_pseud_numbers(hostData, devData, numElements);
+  moj_generator(hostData, devData, numElements);
   /* Prikaz rezultata */
   
   for( int i = 0; i < numElements; i++) {
