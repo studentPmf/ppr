@@ -140,7 +140,7 @@ __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, in
 int main(int argc, const char* argv[])
 {
   // Provjera da li su dobri ulazni parametri
-  if( argc != 2)
+  if( argc != 3)
   {
     cerr<<"Krivi ulazni parametri"<<endl;
     return EXIT_FAILURE;
@@ -251,8 +251,8 @@ int main(int argc, const char* argv[])
   
   ofstream myFileOut;
   char path[80];
-  strcpy(path,"retultati");
-  strcat(path,argv[1]);
+  strcpy(path,"rezultati/");
+  strcat(path,argv[2]);
   cout<<path<<endl;
   myFileOut.open(path);
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
