@@ -205,11 +205,15 @@ int main(int argc, const char* argv[])
   moj_generator(hostData, numElements);
   CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
              cudaMemcpyHostToDevice));
+  float * host1Data;
+  host1Data = (float *)calloc(numElements, sizeof(float));
+  CUDA_CALL(cudaMemcpy(host1Data, devData, numElements * sizeof(float),
+             cudaMemcpyDeviceToHost));
 
   /* Prikaz rezultata */
   
   for( int i = 0; i < numElements; i++) {
-    printf("%1.4f ", hostData[i]);
+    printf("%1.4f ", host1Data[i]);
   }
   cout<<endl;
   
