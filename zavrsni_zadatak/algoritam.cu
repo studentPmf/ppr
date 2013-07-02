@@ -204,7 +204,10 @@ int main(int argc, const char* argv[])
   //create_pseud_numbers(hostData, devData, numElements);
   moj_generator(hostData, devData, numElements);
   /* Prikaz rezultata */
-  
+    CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
+        cudaMemcpyDeviceToHost));
+
+
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
@@ -238,7 +241,6 @@ int main(int argc, const char* argv[])
   // CUDA grid
   //dim3 threadsPerBlock(16, 16);
   //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
-  cout<<"Prosao"<<endl;
   // Algoritam
   do{
     
