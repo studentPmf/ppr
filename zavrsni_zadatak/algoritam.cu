@@ -204,8 +204,8 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
-  //create_pseud_numbers(hostData, devData, numElements);
-  moj_generator(hostData, devData, numElements);
+  create_pseud_numbers(hostData, devData, numElements);
+  //moj_generator(hostData, devData, numElements);
   
   /* Prikaz rezultata */
 
@@ -253,6 +253,7 @@ int main(int argc, const char* argv[])
   char path[80];
   strcpy(path,"retultati");
   strcat(path,argv[1]);
+  cout<<path<<endl;
   myFileOut.open(path);
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
