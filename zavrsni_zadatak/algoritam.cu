@@ -248,8 +248,8 @@ int main(int argc, const char* argv[])
   // Algoritam
   /*--------------------------------------------------------------------------------------------*/
   do{
-    //create_pseud_numbers(hostData, devData, numElements);
-    moj_generator(hostData, devData, numElements);
+    create_pseud_numbers(hostData, devData, numElements);
+    //moj_generator(hostData, devData, numElements);
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
