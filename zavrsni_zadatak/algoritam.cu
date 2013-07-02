@@ -30,10 +30,12 @@ using namespace std;
 /**
   Generator slucajnih brojeva koji koristi mtrand
   */
-int moj_generator(float* hostData, int numElements)
+int moj_generator(float* hostData, float *devData, int numElements)
 {
   generator_realnih_brojeva(hostData, numElements);
   
+  CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float), cudaMemcpyHostToDevice));
+
   return EXIT_SUCCESS;
 }
 
@@ -201,9 +203,10 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
+  /* Kreiranje slucajnih brojeva sa testiranjem */
+  /*********************************************************************/
   //create_pseud_numbers(hostData, devData, numElements);
-  //moj_generator(hostData, numElements);
-  //CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float), cudaMemcpyHostToDevice));
+  //moj_generator(hostData, devData, numElements);
 
   /* Prikaz rezultata */
   /*
@@ -212,6 +215,7 @@ int main(int argc, const char* argv[])
   }
   cout<<endl;
   */
+  /*************************************************************************/
   // Alokacija memorija za glavni program (algoritam)
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size(); // pomocne varijable  
   int *Dveze_size, *Dptr_size;
@@ -244,6 +248,7 @@ int main(int argc, const char* argv[])
   // Algoritam
   do{
     create_pseud_numbers(hostData, devData, numElements);
+    //moj_generator(hostData, devData, numElements);
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
