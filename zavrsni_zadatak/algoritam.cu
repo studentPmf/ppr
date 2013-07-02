@@ -238,7 +238,7 @@ int main(int argc, const char* argv[])
   // CUDA grid
   //dim3 threadsPerBlock(16, 16);
   //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
-
+  cout<<"Prosao"<<endl;
   // Algoritam
   do{
     
@@ -252,7 +252,7 @@ int main(int argc, const char* argv[])
     cout<<k+1<<" : "<<izbaceni[k]<<endl;
 
   // Oslobadanje memorije na hostu i divace-u 
-  //free(hostData);
+  free(hostData);
   CUDA_CALL(cudaFree(devData));
   CUDA_CALL(cudaFree(DindElements));
   CUDA_CALL(cudaFree(DptrVector));
