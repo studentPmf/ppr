@@ -89,7 +89,7 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   bestRand<<<n/128 + 1,128>>>(devData,nn);
   */
   /* Copy device memory to host */
-  moj_generator(hostData,devData,n);
+  //moj_generator(hostData,devData,n);
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
         cudaMemcpyDeviceToHost));
   
