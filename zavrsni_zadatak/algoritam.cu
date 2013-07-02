@@ -81,13 +81,8 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
   /* Generate n floats on device */
   CURAND_CALL(curandGenerateUniform(gen, devData, n));
 
-  /*CUDA_CALL(cudaMalloc((void**)&nn, sizeof(int)));
-  CUDA_CALL(cudaMemcpy(nn, &n, sizeof(int),
-        cudaMemcpyHostToDevice));
-  bestRand<<<n/128 + 1,128>>>(devData,nn);
-  */
+  
   /* Copy device memory to host */
-  //moj_generator(hostData,devData,n);
   CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
         cudaMemcpyDeviceToHost));
   
