@@ -250,7 +250,10 @@ int main(int argc, const char* argv[])
   }while(findZeros(izbaceni, numElements));
   
   ofstream myFileOut;
-  myFileOut.open(argv[1]);
+  char path[80];
+  strcpy(path,"retultati");
+  strcat(path,argv[1]);
+  myFileOut.open(path);
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
   {
