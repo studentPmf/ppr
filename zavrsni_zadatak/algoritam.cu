@@ -30,6 +30,7 @@ using namespace std;
 int moj_generator(float* hostData, float* devData, int numElements)
 {
   generator_realnih_brojeva(hostData,numElements);
+  
   CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
         cudaMemcpyHostToDevice));
   return EXIT_SUCCESS;
@@ -251,7 +252,7 @@ int main(int argc, const char* argv[])
     cout<<k+1<<" : "<<izbaceni[k]<<endl;
 
   // Oslobadanje memorije na hostu i divace-u 
-  free(hostData);
+  //free(hostData);
   CUDA_CALL(cudaFree(devData));
   CUDA_CALL(cudaFree(DindElements));
   CUDA_CALL(cudaFree(DptrVector));
