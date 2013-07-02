@@ -101,7 +101,9 @@ int create_pseud_numbers(float *hostData, float *devData, int numElements)
 /**
   * Device funkcija. Algoritam za pronalazenje maksimalnog nezavisnog skupa vrhova.
   * Ulazni parametri : polje veza, polje pokazivaca na veze za svaki vrh po jedan pointer na polje veze,
-  *                    polje izbaceni, svaki thread zapise tko je izbacen sa -1 a ako je on trazeni postavi 1
+  *     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
+    CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
+                   polje izbaceni, svaki thread zapise tko je izbacen sa -1 a ako je on trazeni postavi 1
   */
 
 __global__ void algoritam(int* veze, int* ptr, int* izbaceni, float *devData, int* veze_size, int* ptr_size)
@@ -202,8 +204,8 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
-  create_pseud_numbers(hostData, devData, numElements);
-  //moj_generator(hostData, devData, numElements);
+  //create_pseud_numbers(hostData, devData, numElements);
+  moj_generator(hostData, devData, numElements);
   
   /* Prikaz rezultata */
 
@@ -246,10 +248,15 @@ int main(int argc, const char* argv[])
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
-
+  
+  ofstream myFileOut;
+  myFileOut.open(argv[1]);
   // ispisi matrice odabranih i izbacenih vrhova 1 -> odabrani, -1 -> izbaceni
   for( int k = 0; k < numElements; k++)
+  {
     cout<<k+1<<" : "<<izbaceni[k]<<endl;
+    myFileOut<<k+1<<" : "<<izbaceni[k]<<endl;
+  }
 
   // Oslobadanje memorije na hostu i divace-u 
   free(hostData);
@@ -259,6 +266,8 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaFree(Dizbaceni));
   CUDA_CALL(cudaFree(Dveze_size));
   CUDA_CALL(cudaFree(Dptr_size));
+  myFile.close();
+  myFileOut.close();
 
   return 0;
 }
