@@ -27,7 +27,7 @@ using namespace std;
     printf("Error at %s:%d\n",__FILE__,__LINE__);\
     return EXIT_FAILURE;}} while(0)
 
-void moj_generator(float hostData, float devData, int numElements)
+void moj_generator(float* hostData, float* devData, int numElements)
 {
   generator_realnih_brojeva(hostData,numElements);
   CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
