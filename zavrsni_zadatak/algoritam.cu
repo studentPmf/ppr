@@ -139,6 +139,7 @@ int main(int argc, const char* argv[])
     return EXIT_FAILURE;
   }
 
+  /***************** UCITAVANJE PODATAKA *****************************/
   int numElements; // broj vrhova
   vector<int> indElements; // vektor susjedstva ( veze )
   vector<int> ptrVector; // pointeri vrhova u vektoru susjedstva
@@ -169,6 +170,7 @@ int main(int argc, const char* argv[])
     cerr<<"Pogresno ime datoteke"<<endl;
     return EXIT_FAILURE;
   }
+  /**************************************************************************/
 
   /* Provjera da li je sve procitano korektno*/
   /*cout<<numElements<<endl;
@@ -210,6 +212,7 @@ int main(int argc, const char* argv[])
   cout<<endl;
   */
   /*************************************************************************/
+  
   // Alokacija memorija za glavni program (algoritam)
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size(); // pomocne varijable  
   int *Dveze_size, *Dptr_size;
@@ -234,19 +237,25 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMemcpy(Dptr_size, &Hptr_size, sizeof(int),
         cudaMemcpyHostToDevice));
  
-
+  
+  /**********************************************************************************/
   // CUDA grid
   //dim3 threadsPerBlock(16, 16);
   //dim3 numBlocks(numElements / threadsPerBlock.x, numElements / threadsPerBlock.y);
+  /***********************************************************************************/
+  
   
   // Algoritam
+  /*--------------------------------------------------------------------------------------------*/
   do{
     //create_pseud_numbers(hostData, devData, numElements);
     moj_generator(hostData, devData, numElements);
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
+  /*---------------------------------------------------------------------------------------------*/
   
+  /************ ISPIS ***************************************/
   ofstream myFileOut;
   char path[80];
   strcpy(path,"rezultati/");
@@ -259,6 +268,7 @@ int main(int argc, const char* argv[])
     cout<<k+1<<" : "<<izbaceni[k]<<endl;
     myFileOut<<k+1<<" : "<<izbaceni[k]<<endl;
   }
+  /********************************************************/
 
   // Oslobadanje memorije na hostu i divace-u 
   free(hostData);
