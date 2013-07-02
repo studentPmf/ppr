@@ -270,7 +270,7 @@ int main(int argc, const char* argv[])
   }
 
   // Oslobadanje memorije na hostu i divace-u 
-  free(hostData);
+  /*free(hostData);
   CUDA_CALL(cudaFree(devData));
   CUDA_CALL(cudaFree(DindElements));
   CUDA_CALL(cudaFree(DptrVector));
@@ -279,6 +279,6 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaFree(Dptr_size));
   myFile.close();
   myFileOut.close();
-
+*/
   return 0;
 }
