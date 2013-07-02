@@ -204,16 +204,16 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
-  create_pseud_numbers(hostData, devData, numElements);
-  //moj_generator(hostData, devData, numElements);
+  //create_pseud_numbers(hostData, devData, numElements);
+  moj_generator(hostData, devData, numElements);
   
   /* Prikaz rezultata */
-
+  /*
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-  
+  */
   // Alokacija memorija za glavni program (algoritam)
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size(); // pomocne varijable  
   int *Dveze_size, *Dptr_size;
