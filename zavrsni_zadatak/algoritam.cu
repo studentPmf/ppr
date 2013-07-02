@@ -33,11 +33,7 @@ using namespace std;
 int moj_generator(float* hostData, float *devData, int numElements)
 {
   generator_realnih_brojeva(hostData, numElements);
-  for (int i(0); i < numElements; i++)
-    cout<<hostData[i]<<" ";
-  cout<<endl;
   CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float), cudaMemcpyHostToDevice));
-
   return EXIT_SUCCESS;
 }
 
@@ -270,7 +266,7 @@ int main(int argc, const char* argv[])
   }
 
   // Oslobadanje memorije na hostu i divace-u 
-  /*free(hostData);
+  free(hostData);
   CUDA_CALL(cudaFree(devData));
   CUDA_CALL(cudaFree(DindElements));
   CUDA_CALL(cudaFree(DptrVector));
@@ -279,6 +275,6 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaFree(Dptr_size));
   myFile.close();
   myFileOut.close();
-*/
+
   return 0;
 }

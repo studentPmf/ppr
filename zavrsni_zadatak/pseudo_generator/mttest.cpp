@@ -10,7 +10,7 @@ void generator_realnih_brojeva(float *realni, int n)
   MTRand_int32 irand(init, length); // 32-bit int generator
   MTRand drand; // double in [0, 1) generator, already init
 
-  for (int i = 0; i < 1000; ++i) 
+  for (int i = 0; i < n; ++i) 
     realni[i] = drand();
 }
 void generator_cijelih_brojeva(int* cijeli, int n)
