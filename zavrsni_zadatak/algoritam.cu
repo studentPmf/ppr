@@ -33,7 +33,9 @@ using namespace std;
 int moj_generator(float* hostData, float *devData, int numElements)
 {
   generator_realnih_brojeva(hostData, numElements);
-  
+  for (int i(0); i < numElements; i++)
+    cout<<hostData[i]<<" ";
+  cout<<endl;
   CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float), cudaMemcpyHostToDevice));
 
   return EXIT_SUCCESS;
@@ -248,8 +250,8 @@ int main(int argc, const char* argv[])
   
   // Algoritam
   do{
-    create_pseud_numbers(hostData, devData, numElements);
-    //moj_generator(hostData, devData, numElements);
+    //create_pseud_numbers(hostData, devData, numElements);
+    moj_generator(hostData, devData, numElements);
     algoritam<<<numElements/128 + 1 ,128>>>(DindElements, DptrVector, Dizbaceni, devData, Dveze_size, Dptr_size);
     CUDA_CALL(cudaMemcpy(izbaceni, Dizbaceni, numElements * sizeof(int), cudaMemcpyDeviceToHost));
   }while(findZeros(izbaceni, numElements));
