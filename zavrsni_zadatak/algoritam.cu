@@ -30,12 +30,10 @@ using namespace std;
 /**
   Generator slucajnih brojeva koji koristi mtrand
   */
-int moj_generator(float* hostData, float* devData, int numElements)
+int moj_generator(float* hostData, int numElements)
 {
   generator_realnih_brojeva(hostData, numElements);
   
-  CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
-        cudaMemcpyHostToDevice));
   return EXIT_SUCCESS;
 }
 
@@ -204,15 +202,17 @@ int main(int argc, const char* argv[])
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
   //create_pseud_numbers(hostData, devData, numElements);
-  moj_generator(hostData, devData, numElements);
-  
+  moj_generator(hostData, numElements);
+  CUDA_CALL(cudaMemcpy(devData, hostData, numElements * sizeof(float),
+             cudaMemcpyHostToDevice));
+
   /* Prikaz rezultata */
-  /*
+  
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
   }
   cout<<endl;
-  */
+  
   // Alokacija memorija za glavni program (algoritam)
   int Hveze_size = indElements.size(), Hptr_size = ptrVector.size(); // pomocne varijable  
   int *Dveze_size, *Dptr_size;
