@@ -201,12 +201,10 @@ int main(int argc, const char* argv[])
   hostData = (float *)calloc(numElements, sizeof(float));
   CUDA_CALL(cudaMalloc((void **)&devData, numElements*sizeof(float)));
   
-  //create_pseud_numbers(hostData, devData, numElements);
-  moj_generator(hostData, devData, numElements);
+  create_pseud_numbers(hostData, devData, numElements);
+  //moj_generator(hostData, devData, numElements);
+  
   /* Prikaz rezultata */
-    CUDA_CALL(cudaMemcpy(hostData, devData, numElements * sizeof(float),
-        cudaMemcpyDeviceToHost));
-
 
   for( int i = 0; i < numElements; i++) {
     printf("%1.4f ", hostData[i]);
