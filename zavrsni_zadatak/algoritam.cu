@@ -204,7 +204,7 @@ int main(int argc, const char* argv[])
   //create_pseud_numbers(hostData, devData, numElements);
   moj_generator(hostData, devData, numElements);
   /* Prikaz rezultata */
-    CUDA_CALL(cudaMemcpy(hostData, devData, n * sizeof(float),
+    CUDA_CALL(cudaMemcpy(hostData, devData, numElements * sizeof(float),
         cudaMemcpyDeviceToHost));
 
 
